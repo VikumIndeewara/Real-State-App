@@ -1,8 +1,26 @@
 import React from 'react'
+import { Routes , Route } from 'react-router-dom'
+import Home from './pages/Home.jsx'
+import SignIn from './pages/SignIn'
+import SignUp from './pages/SignUp'
+import AboutUs from './pages/AboutUs'
+import Header from './Components/Header'
+import AddProperty from './pages/AddProperty.jsx'
+import Profile from './pages/Profile.jsx'
 
 const App = () => {
   return (
-    <div className='text-red-500'>App</div>
+    <>
+    <Header/>
+    <Routes>
+      <Route path="/" element={<Home/>} />
+      <Route path="/sign-in" element={<SignIn/>} />
+      <Route path="/sign-up" element={<SignUp/>} />
+      <Route path="/about-us" element={<AboutUs/>} />
+      <Route path='/add-property' element={<AddProperty/>}/>
+      <Route path='/profile' element={<Profile/>}/>
+    </Routes>
+    </>
   )
 }
 
