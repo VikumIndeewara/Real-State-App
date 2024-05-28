@@ -14,16 +14,16 @@ const Header = () => {
         <nav>
             <ul className='flex items-center gap-10 font-semibold text-slate-600'>
                 <li>
-                    <Link to="/add-property">Add Property</Link>
+                    <Link to="/add-property" className="hover:text-red-400">Add Property</Link>
                 </li>
                 <li>
-                    <Link to="/about-us">About US</Link>
+                    <Link to="/about-us" className="hover:text-red-400">About US</Link>
                 </li>
                 <li>
                     <div className='flex gap-2 bg-slate-200 p-2 rounded-full shadow-md
                     '>
-                        <Link to="/profile"><MdAccountCircle size={28}/></Link>
-                        <button onClick={()=>{setShowMenu(!showMenu)}}><GiHamburgerMenu size={28}/></button>
+                        <Link to="/profile" className="hover:text-red-400"><MdAccountCircle size={28}/></Link>
+                        <button onClick={()=>{setShowMenu(!showMenu)}} className="hover:text-red-400"><GiHamburgerMenu size={28}/></button>
                         {showMenu ? (<Dropdown/>):('')} 
                     </div>
                 </li>
