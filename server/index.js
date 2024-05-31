@@ -3,10 +3,15 @@ import { PORT} from './config.js';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
+import userRouter from '../server/routes/userRoute.js'
+import authRouter from '../server/routes/authRoute.js'
 
 const app = express();
+app.use(express.json());
 const MONGO = process.env.MONGO;
 
+app.use('/user',userRouter);
+app.use('/auth',authRouter);
 
 mongoose
     .connect(MONGO)
