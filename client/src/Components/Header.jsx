@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { MdAccountCircle } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 import Dropdown from './Dropdown';
+import onClickOutside from 'react-click-outside';
 
 const Header = () => {
     const [showMenu,setShowMenu]=useState(false);
@@ -20,8 +21,7 @@ const Header = () => {
                     <Link to="/about-us" className="hover:text-red-400">About US</Link>
                 </li>
                 <li>
-                    <div className='flex gap-2 bg-slate-200 p-2 rounded-full shadow-md
-                    '>
+                    <div className='flex gap-2 bg-slate-200 p-2 rounded-full shadow-md'>
                         <Link to="/profile" className="hover:text-red-400"><MdAccountCircle size={28}/></Link>
                         <button onClick={()=>{setShowMenu(!showMenu)}} className="hover:text-red-400"><GiHamburgerMenu size={28}/></button>
                         {showMenu ? (<Dropdown/>):('')} 
@@ -32,5 +32,6 @@ const Header = () => {
     </header>
   )
 }
+
 
 export default Header
