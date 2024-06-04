@@ -5,9 +5,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 import userRouter from '../server/routes/userRoute.js'
 import authRouter from '../server/routes/authRoute.js'
+import cors from 'cors';
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 const MONGO = process.env.MONGO;
 
 app.use('/user',userRouter);

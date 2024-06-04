@@ -60,8 +60,8 @@ const SignIn = () => {
           </div>
         </form>
       <p className="mt-5 text-center text-sm text-gray-500">
-        Have an account?
-      <Link to={'/sign-in'} className="font-semibold leading-6 text-red-600 hover:text-red-400">Sign In</Link>
+        Do not have an account?
+      <Link to={'/sign-up'} className="font-semibold leading-6 text-red-600 hover:text-red-400">Sign Up</Link>
       </p>
       </div>
     </div>
