@@ -20,7 +20,7 @@ const SignUp = () => {
     e.preventDefault();
     setLoading(true);
     axios
-    .post('http://localhost:5555/auth/sign-up',formData)
+    .post('api/auth/sign-up',formData)
     .then(()=>{
       setLoading(false);
       navigate('/sign-in');
