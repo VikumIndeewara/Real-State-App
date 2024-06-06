@@ -2,11 +2,14 @@ import React,{useState} from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import LoadingSpinner from '../Components/LoadingSpinner.jsx';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { signInStart,signInFailure,signInSuccess } from '../redux/user/userSlice.js';
 
 const SignIn = () => {
   const navigate=useNavigate();
-  const [loading,setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const {loading}=useSelector((state)=>state.user);
+  // const [loading,setLoading] = useState(false);
   const [formData,setFormData] = useState({});
   const handleChange = (e)=>{
     setFormData({
@@ -18,17 +21,18 @@ const SignIn = () => {
 
   const handleSubmit=(e)=>{
     e.preventDefault();
-    setLoading(true);
+    dispatch(signInStart());
+    // setLoading(true);
     axios
     .post('http://localhost:5555/auth/sign-in',formData)
-    .then(()=>{
-      setLoading(false);
+    .then((res)=>{
+      dispatch(signInSuccess(res));
       navigate('/');
       console.log('login success!!');
     })
     .catch((err)=>{
       console.log(err);
-      setLoading(false);
+      dispatch(signInFailure(err.message));
     })
   }
   return (
