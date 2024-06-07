@@ -4,6 +4,7 @@ import axios from 'axios';
 import LoadingSpinner from '../Components/LoadingSpinner.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { signInStart,signInFailure,signInSuccess } from '../redux/user/userSlice.js';
+import Oauth from '../Components/Oauth.jsx';
 
 const SignIn = () => {
   const navigate=useNavigate();
@@ -44,7 +45,7 @@ const SignIn = () => {
       </div>
 
       {loading ? (
-          <LoadingSpinner/>
+           <LoadingSpinner/>
         ):(
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" action="#" method="POST">
@@ -97,6 +98,7 @@ const SignIn = () => {
             >
               Sign In
             </button>
+            <Oauth/>
           </div>
         </form>
 
