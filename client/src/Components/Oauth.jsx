@@ -6,11 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { signInSuccess } from '../redux/user/userSlice.js';
 
+
 const Oauth = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleGoogleClick=async(e)=>{
-        console.log('run');
         e.preventDefault();
         try{
             const provider = new GoogleAuthProvider;

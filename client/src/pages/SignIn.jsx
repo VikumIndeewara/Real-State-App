@@ -10,7 +10,6 @@ const SignIn = () => {
   const navigate=useNavigate();
   const dispatch = useDispatch();
   const {loading}=useSelector((state)=>state.user);
-  // const [loading,setLoading] = useState(false);
   const [formData,setFormData] = useState({});
   const handleChange = (e)=>{
     setFormData({
@@ -23,7 +22,6 @@ const SignIn = () => {
   const handleSubmit=(e)=>{
     e.preventDefault();
     dispatch(signInStart());
-    // setLoading(true);
     axios
     .post('http://localhost:5555/auth/sign-in',formData)
     .then((res)=>{

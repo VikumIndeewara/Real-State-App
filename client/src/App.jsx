@@ -7,6 +7,7 @@ import AboutUs from './pages/AboutUs'
 import Header from './Components/Header'
 import AddProperty from './pages/AddProperty.jsx'
 import Profile from './pages/Profile.jsx'
+import PrivateRoute from './Components/PrivateRoute.jsx'
 
 const App = () => {
   return (
@@ -18,7 +19,9 @@ const App = () => {
       <Route path="/sign-up" element={<SignUp/>} />
       <Route path="/about-us" element={<AboutUs/>} />
       <Route path='/add-property' element={<AddProperty/>}/>
-      <Route path='/profile' element={<Profile/>}/>
+      <Route element={<PrivateRoute/>}>
+        <Route path='/profile' element={<Profile/>}/>
+      </Route>
     </Routes>
     </>
   )
