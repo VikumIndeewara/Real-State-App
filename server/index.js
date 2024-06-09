@@ -1,6 +1,7 @@
 import express from 'express';
 import { PORT} from './config.js';
 import mongoose from 'mongoose';
+import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 dotenv.config();
 import userRouter from '../server/routes/userRoute.js'
@@ -11,6 +12,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 const MONGO = process.env.MONGO;
+
+app.use(cookieParser());
 
 app.use('/user',userRouter);
 app.use('/auth',authRouter);
