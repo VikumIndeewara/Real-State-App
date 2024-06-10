@@ -20,6 +20,7 @@ import {
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 // import LoadingSpinner from '../Components/LoadingSpinner.jsx';
+axios.defaults.withCredentials = true;
 
 const Profile = () => {
   const { currentUser,loading,error } = useSelector((state) => state.user);
@@ -126,7 +127,12 @@ const Profile = () => {
     const link = `http://localhost:5555/user/update/${currentUser.data._id}`;
     console.log(link);
     axios
-      .put(link, formData)
+      .put(link, formData,{
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true, // Include credentials (cookies) in the request
+      })
       .then((res) => {
         console.log(res);
         dispatch(updateUserSuccess(res));

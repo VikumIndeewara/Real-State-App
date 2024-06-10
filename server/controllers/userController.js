@@ -41,7 +41,7 @@ export const update = async (req, res) => {
     const { password, ...rest } = updateResult._doc;
     const token = jwt.sign({ id: updateResult._id }, process.env.JWT_SECRET);
     res
-      .cookie("new_access_token", token, { httpOnly: true , maxAge: 24 * 60 * 60 * 1000 }) //httpOnly prevent access of other third party applications, we can set cookie expire time also
+      .cookie("access_token", token, { httpOnly: true , maxAge: 24 * 60 * 60 * 1000 }) //httpOnly prevent access of other third party applications, we can set cookie expire time also
       .status(200)
       .json(rest);
   } catch (error) {
