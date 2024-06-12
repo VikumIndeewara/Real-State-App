@@ -21,17 +21,16 @@ import {
   deleteUserSuccess,
   deleteUserFailure,
   signOutUserStart,
-  signInSuccess,
   signOutUserFailure,
   signOutUserSuccess,
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
-import { signOut } from "firebase/auth";
+// import { signOut } from "firebase/auth";
 // import LoadingSpinner from '../Components/LoadingSpinner.jsx';
 axios.defaults.withCredentials = true;
 
 const Profile = () => {
-  const { currentUser,loading,error } = useSelector((state) => state.user);
+  const { currentUser, loading, error } = useSelector((state) => state.user);
   const fileRef = useRef(null);
   const [image, setImage] = useState(null);
   const [formData, setFormData] = useState({
@@ -45,7 +44,8 @@ const Profile = () => {
   const [updateName, setUpdateName] = useState(false);
   const [updateEmail, setUpdateEmail] = useState(false);
   const [updatePassword, setUpdatePassword] = useState(false);
-  const [updateUserSuccessMessage,setUpdateUserSuccessMessage]=useState(false);
+  const [updateUserSuccessMessage, setUpdateUserSuccessMessage] =
+    useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -84,7 +84,7 @@ const Profile = () => {
     changePassword();
     setFormData({
       ...formData,
-      password: '',
+      password: "",
     });
   };
   const handleUploadImage = useCallback((image) => {
@@ -132,16 +132,16 @@ const Profile = () => {
       }, 5000);
       return () => clearTimeout(timer); // Cleanup the timer
     }
-  }, [messageVisible,updateUserSuccessMessage]);
+  }, [messageVisible, updateUserSuccessMessage]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(updateUserStart());
     const link = `http://localhost:5555/user/update/${currentUser.data._id}`;
     axios
-      .put(link, formData,{
+      .put(link, formData, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         withCredentials: true, // Include credentials (cookies) in the request
       })
@@ -157,31 +157,39 @@ const Profile = () => {
       });
   };
 
-  const handleDeleteUser=(e)=>{
+  const handleDeleteUser = (e) => {
     e.preventDefault();
     dispatch(deleteUserStart());
     const link = `http://localhost:5555/user/deleteUser/${currentUser.data._id}`;
     axios
-    .delete(link)
-    .then((res) => {
-      console.log(res);
-      dispatch(deleteUserSuccess(res));
-      navigate("/sign-in");
-    })
-    .catch((err) => {
-      console.log(err);
-      dispatch(deleteUserFailure(err.message));
-    });
+      .delete(link)
+      .then((res) => {
+        console.log(res);
+        dispatch(deleteUserSuccess(res));
+        navigate("/sign-in");
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(deleteUserFailure(err.message));
+      });
   };
 
-  const signOutUser=(e)=>{
+  const signOutUser = (e) => {
     e.preventDefault();
+
     dispatch(signOutUserStart());
-    try{
-      dispatch(signOutUserSuccess());
-    }catch(err){
-      dispatch(signOutUserFailure(err));
-    }
+    const link = `http://localhost:5555/auth/sign-out`;
+    axios
+      .get(link)
+      .then((res) => {
+        console.log(res);
+        dispatch(signOutUserSuccess());
+        navigate("/sign-in");
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(signOutUserFailure(err));
+      });
   };
 
   return (
@@ -347,19 +355,30 @@ const Profile = () => {
 
             <div className="my-3">
               <button
-              disabled={loading}
+                disabled={loading}
                 onClick={handleSubmit}
                 className="w-full my-3 rounded-md bg-slate-600 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-500"
               >
                 {loading ? "Loading...." : "Update Info"}
               </button>
               <div className=" flex justify-between text-sm text-red-600 font-medium">
-                <button onClick={handleDeleteUser} className="hover:text-red-400">Delete Account</button>
-                <button onClick={signOutUser} className="hover:text-red-400">Sign Out</button>
+                <button
+                  onClick={handleDeleteUser}
+                  className="hover:text-red-400"
+                >
+                  Delete Account
+                </button>
+                <button onClick={signOutUser} className="hover:text-red-400">
+                  Sign Out
+                </button>
               </div>
               <div>
-                <p className="text-red-700 text-center mt-5">{error ? error : ''}</p>
-                <p className="text-green-700 text-center mt-5">{updateUserSuccessMessage ? 'User Updated!':''}</p>
+                <p className="text-red-700 text-center mt-5">
+                  {error ? error : ""}
+                </p>
+                <p className="text-green-700 text-center mt-5">
+                  {updateUserSuccessMessage ? "User Updated!" : ""}
+                </p>
               </div>
             </div>
           </div>
