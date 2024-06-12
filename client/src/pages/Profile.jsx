@@ -17,8 +17,16 @@ import {
   updateUserStart,
   updateUserSuccess,
   updateUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
+  signOutUserStart,
+  signInSuccess,
+  signOutUserFailure,
+  signOutUserSuccess,
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
+import { signOut } from "firebase/auth";
 // import LoadingSpinner from '../Components/LoadingSpinner.jsx';
 axios.defaults.withCredentials = true;
 
@@ -37,6 +45,7 @@ const Profile = () => {
   const [updateName, setUpdateName] = useState(false);
   const [updateEmail, setUpdateEmail] = useState(false);
   const [updatePassword, setUpdatePassword] = useState(false);
+  const [updateUserSuccessMessage,setUpdateUserSuccessMessage]=useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -117,15 +126,18 @@ const Profile = () => {
 
       return () => clearTimeout(timer); // Cleanup the timer
     }
-  }, [messageVisible]);
+    if (updateUserSuccessMessage) {
+      const timer = setTimeout(() => {
+        setUpdateUserSuccessMessage(false);
+      }, 5000);
+      return () => clearTimeout(timer); // Cleanup the timer
+    }
+  }, [messageVisible,updateUserSuccessMessage]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
     dispatch(updateUserStart());
-    // setLoading(true);
     const link = `http://localhost:5555/user/update/${currentUser.data._id}`;
-    console.log(link);
     axios
       .put(link, formData,{
         headers: {
@@ -136,14 +148,40 @@ const Profile = () => {
       .then((res) => {
         console.log(res);
         dispatch(updateUserSuccess(res));
-        // setLoading(false);
+        setUpdateUserSuccessMessage(true);
         navigate("/profile");
       })
       .catch((err) => {
         console.log(err);
         dispatch(updateUserFailure(err.message));
-        // setLoading(false);
       });
+  };
+
+  const handleDeleteUser=(e)=>{
+    e.preventDefault();
+    dispatch(deleteUserStart());
+    const link = `http://localhost:5555/user/deleteUser/${currentUser.data._id}`;
+    axios
+    .delete(link)
+    .then((res) => {
+      console.log(res);
+      dispatch(deleteUserSuccess(res));
+      navigate("/sign-in");
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch(deleteUserFailure(err.message));
+    });
+  };
+
+  const signOutUser=(e)=>{
+    e.preventDefault();
+    dispatch(signOutUserStart());
+    try{
+      dispatch(signOutUserSuccess());
+    }catch(err){
+      dispatch(signOutUserFailure(err));
+    }
   };
 
   return (
@@ -316,11 +354,12 @@ const Profile = () => {
                 {loading ? "Loading...." : "Update Info"}
               </button>
               <div className=" flex justify-between text-sm text-red-600 font-medium">
-                <span className="hover:text-red-400">Delete Account</span>
-                <span className="hover:text-red-400">Sign Out</span>
+                <button onClick={handleDeleteUser} className="hover:text-red-400">Delete Account</button>
+                <button onClick={signOutUser} className="hover:text-red-400">Sign Out</button>
               </div>
               <div>
-                {error ? error : ''}
+                <p className="text-red-700 text-center mt-5">{error ? error : ''}</p>
+                <p className="text-green-700 text-center mt-5">{updateUserSuccessMessage ? 'User Updated!':''}</p>
               </div>
             </div>
           </div>
