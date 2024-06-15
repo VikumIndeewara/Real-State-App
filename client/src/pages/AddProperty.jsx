@@ -6,91 +6,99 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import app from "../firebase/firebase.js";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useSelector } from "react-redux";
 import { IoMdCloseCircle } from "react-icons/io";
 
 const AddProperty = () => {
-
+  const { currentUser } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({});
+  const navigate = useNavigate();
   const fileRef = useRef(null);
   const [images, setImages] = useState([]);
-  const [loading,setLoading]=useState(false);
-  const [uploadError,setUploadError]=useState(false);
-  const [uploadPerc,setUploadPerc]=useState('');
+  const [uploadPerc, setUploadPerc] = useState('');
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.id]: e.target.value,
     });
-    
   };
-  const handleUploadImages=async()=>{
-    console.log(images);
+
+  const handleUploadImages = async () => {
     const imagesLinks = [];
-    for(let i=0;i<images.length;i++){
+    for (let i = 0; i < images.length; i++) {
       imagesLinks.push(uploadImages(images[i]));
     }
-    
+
     try {
-      console.log(imagesLinks);
       const results = await Promise.all(imagesLinks);
-      setFormData({
-        ...formData,
-        images:results,
-      });
-      console.log("is",formData.images)
+      setFormData((prevData) => ({
+        ...prevData,
+        images: results,
+      }));
     } catch (error) {
       console.error("Error uploading images: ", error);
     }
   }
 
-  const uploadImages=async(image)=>{
-    return new Promise((resolve,reject)=>{
-    const storage = getStorage(app);
-    const fileName = new Date().getTime() + image.name;
-    const storageRef = ref(storage, fileName);
-    const uploadTask = uploadBytesResumable(storageRef, image);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Uploading ${progress}!`);
+  const uploadImages = async (image) => {
+    return new Promise((resolve, reject) => {
+      const storage = getStorage(app);
+      const fileName = new Date().getTime() + image.name;
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           setUploadPerc(Math.round(progress));
-      },
-      (error) => {
-          console.log(error);
+        },
+        (error) => {
+          console.error(error);
           reject(error);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>
-          resolve (downloadURL))
-      }
-    )
-  })
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => resolve(downloadURL));
+        }
+      );
+    });
   }
-  const handleRemoveImage=(index)=>{
-    console.log('removing!');
-    setFormData({
-      ...formData,
-      images: formData.images.filter((_,i)=> i != index)
-    }
-    )
-    console.log(formData.images)
-  }
-  const handleSubmit=(e)=>{
+
+  const handleRemoveImage = (index, e) => {
     e.preventDefault();
-    console.log(formData);
+    setFormData((prevData) => ({
+      ...prevData,
+      images: prevData.images.filter((_, i) => i !== index)
+    }));
   }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const link = `http://localhost:5555/listing/create-listing`;
+    axios
+      .post(link, {
+        ...formData,
+        userRef: currentUser.data._id,
+      })
+      .then((res) => {
+        console.log(res);
+        navigate(`/listing/${res.data._id}`);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
   useEffect(() => {
-    if (uploadPerc>0) {
+    if (uploadPerc > 0) {
       const timer = setTimeout(() => {
         setUploadPerc(null);
       }, 5000);
 
       return () => clearTimeout(timer);
     }
-
   }, [uploadPerc]);
 
   return (
@@ -125,7 +133,7 @@ const AddProperty = () => {
                 </div>
                 <div className="w-full mb-10">
                   <label
-                    htmlFor="propertyname"
+                    htmlFor="contactnumber"
                     className="block w-full text-sm font-medium leading-6 text-gray-900"
                   >
                     Contact Number:
@@ -145,7 +153,7 @@ const AddProperty = () => {
                 </div>
                 <div className="w-full mb-10">
                   <label
-                    htmlFor="propertyname"
+                    htmlFor="address"
                     className="block w-full text-sm font-medium leading-6 text-gray-900"
                   >
                     Address:
@@ -165,7 +173,7 @@ const AddProperty = () => {
                 </div>
                 <div className="w-full mb-10">
                   <label
-                    htmlFor="about"
+                    htmlFor="description"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     Add Description:
@@ -188,7 +196,7 @@ const AddProperty = () => {
                   <div className="flex items-center gap-2">
                     <input
                       type="number"
-                      id="bedrooms"
+                      id="beds"
                       min="1"
                       max="10"
                       required
@@ -202,7 +210,7 @@ const AddProperty = () => {
                   <div className="flex items-center gap-2">
                     <input
                       type="number"
-                      id="bathrooms"
+                      id="baths"
                       min="1"
                       max="10"
                       required
@@ -272,8 +280,8 @@ const AddProperty = () => {
                     </button>
                   </div>
                 </div>
-                {uploadPerc>0 && <p className="text-green-600 text-center mt-2">Uploading {uploadPerc}% !</p>}
-                <div  onClick={() => fileRef.current.click()} className="w-full mb-2">
+                {uploadPerc > 0 && <p className="text-green-600 text-center mt-2">Uploading {uploadPerc}% !</p>}
+                <div onClick={() => fileRef.current.click()} className="w-full mb-2">
                   <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                     <div className="text-center">
                       <svg
@@ -306,32 +314,30 @@ const AddProperty = () => {
                             }}
                           />
                         </label>
-                        
                         <p className="pl-1">or drag and drop</p>
                       </div>
-                      {images.length>0 ? (<p className="text-s my-1 leading-5 text-gray-600"> {images.length}photos selected</p>): ''}
+                      {images.length > 0 ? (<p className="text-s my-1 leading-5 text-gray-600"> {images.length} photos selected</p>) : ''}
                       <p className="text-xs leading-5 text-gray-600">
                         6 images up to 10MB
                       </p>
                     </div>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 ">
-                {formData.images &&  formData.images.map((url, index) => (
-                  <div key={index}>
-                    <button onClick={()=>handleRemoveImage(index)} className="text-red-600"><IoMdCloseCircle/></button>
-                    <img key={index} src={url} alt={`Uploaded image ${index}`} className="h-[250px] object-cover"/>
-                    
-                  </div>
-                ))}
+                <div className="grid grid-cols-2 gap-4">
+                  {formData.images && formData.images.map((url, index) => (
+                    <div key={index} className="relative">
+                      <button onClick={(e) => handleRemoveImage(index, e)} className="absolute top-2 right-2 text-red-600">
+                        <IoMdCloseCircle size={24} />
+                      </button>
+                      <img key={index} src={url} alt={`Uploaded image ${index}`} className="h-[250px] w-full object-cover rounded-lg"/>
+                    </div>
+                  ))}
                 </div>
-                
               </div>
             </div>
           </div>
         </div>
       </form>
-      
     </div>
   );
 };

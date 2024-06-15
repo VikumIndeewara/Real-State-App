@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import userRouter from '../server/routes/userRoute.js'
 import authRouter from '../server/routes/authRoute.js'
+import listingRouter from '../server/routes/listingRoute.js'
 import cors from 'cors';
 
 const corsOptions = {
@@ -21,6 +22,7 @@ app.use(cookieParser());
 
 app.use('/user',userRouter);
 app.use('/auth',authRouter);
+app.use('/listing',listingRouter);
 app.use((err,req,res,next)=>{
     const statusCode = err.statusCode || 500;
     const message = err.message || 'Internal-server-error';
