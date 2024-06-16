@@ -1,6 +1,7 @@
 import { User } from "../Models/UserModel.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { Listing } from "../Models/listingModel.js"
 import { errorHandler } from "../utils/error.js";
 
 export const test = (req, res) => {
@@ -66,3 +67,13 @@ export const deleteUser = async (req,res) =>{
   }
 
 };
+
+export const getUserListings =async(req,res,next)=>{
+  try{
+      const { id }=req.params;
+      const listings = await Listing.find({userRef:id});
+      return res.status(201).json(listings)
+  }catch(err){
+      next(err)
+  }
+}
