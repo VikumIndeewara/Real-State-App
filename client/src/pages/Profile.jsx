@@ -409,15 +409,22 @@ const Profile = () => {
         </div>
         <div>
           <div className="my-2">
-            <span className="px-5">You have {listings.length} listings available!</span>
-          <div className="grid md:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center px-5 py-5">
-            {listings &&
-              listings.map((listing, index) => (
-                <div key={index}>
-                  <ListingCard listing={listing} />
-                </div>
-              ))}
-          </div>
+            <span className="px-10">
+              You have {listings.length} listings available!
+            </span>
+            <hr className="my-3"/>
+            <div className="grid md:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center px-5 w-full h-full">
+              {listings &&
+                listings.map((listing, index) => (
+                  <div key={index} className="p-1">
+                    <ListingCard listing={listing} />
+                    <div className="grid grid-cols-2 gap-4 my-2 mx-2">
+                      <button className="border-0 ring-2 ring-green-400 rounded-md px-10 py-1 hover:ring-1 hover:shadow-lg font-medium bg-green-50">EDIT</button>
+                      <button className="border-0 ring-2 ring-red-400 rounded-md px-10 py-1 hover:ring-1 hover:shadow-lg font-medium bg-red-50">DELETE</button>
+                    </div>
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
       </div>

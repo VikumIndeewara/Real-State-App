@@ -3,7 +3,7 @@ import cardImage from "../assets/images/back2.jpg";
 
 const ListingCard = ({ listing }) => {
   return (
-    <div className="grid grid-rows-2 max-w-sm bg-white border border-gray-200 rounded-lg shadow w-full h-full ">
+    <div className="grid grid-rows-2 max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
     <a href="#">
       <img
         className="rounded-t-lg object-cover h-[210px] w-[400px]"
