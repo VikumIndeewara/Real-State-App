@@ -408,13 +408,16 @@ const Profile = () => {
           </div>
         </div>
         <div>
-          <div className="grid md:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center px-5">
+          <div className="my-2">
+            <span className="px-5">You have {listings.length} listings available!</span>
+          <div className="grid md:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center px-5 py-5">
             {listings &&
               listings.map((listing, index) => (
                 <div key={index}>
                   <ListingCard listing={listing} />
                 </div>
               ))}
+          </div>
           </div>
         </div>
       </div>
