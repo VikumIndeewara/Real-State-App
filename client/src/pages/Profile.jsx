@@ -25,16 +25,13 @@ import {
   signOutUserSuccess,
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
+import ListingCard from "../Components/ListingCard.jsx";
 // import { signOut } from "firebase/auth";
 // import LoadingSpinner from '../Components/LoadingSpinner.jsx';
 
-
 axios.defaults.withCredentials = true;
 
-
 const Profile = () => {
-
-
   const { currentUser, loading, error } = useSelector((state) => state.user);
   const fileRef = useRef(null);
   const [image, setImage] = useState(null);
@@ -51,11 +48,10 @@ const Profile = () => {
   const [updatePassword, setUpdatePassword] = useState(false);
   const [updateUserSuccessMessage, setUpdateUserSuccessMessage] =
     useState(false);
-
+  const [listings, setListings] = useState([]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
 
   const handleChange = (e) => {
     setFormData({
@@ -64,7 +60,6 @@ const Profile = () => {
     });
     console.log(formData);
   };
-
 
   const changeName = () => {
     setUpdateName((updateName) => !updateName);
@@ -77,7 +72,6 @@ const Profile = () => {
   const changePassword = () => {
     setUpdatePassword((updatePassword) => !updatePassword);
   };
-
 
   const cancelUpdateName = () => {
     changeName();
@@ -103,13 +97,12 @@ const Profile = () => {
     });
   };
 
-
   const handleUploadImage = useCallback((image) => {
     const storage = getStorage(app);
     const fileName = new Date().getTime() + image.name;
     const storageRef = ref(storage, fileName); //created unique name and referenced it to the store of firebase
     const uploadTask = uploadBytesResumable(storageRef, image); //uploading image to the created store path of the firebase
-    
+
     uploadTask.on(
       "state_changed",
       (snapshot) => {
@@ -130,13 +123,11 @@ const Profile = () => {
     );
   }, []);
 
-
   useEffect(() => {
     if (image) {
       handleUploadImage(image);
     }
   }, [image, handleUploadImage]);
-
 
   useEffect(() => {
     if (messageVisible) {
@@ -155,8 +146,17 @@ const Profile = () => {
     }
   }, [messageVisible, updateUserSuccessMessage]);
 
-
-
+  useEffect(() => {
+    const link = `http://localhost:5555/user/userListings/${currentUser.data._id}`;
+    axios
+      .get(link)
+      .then((res) => {
+        setListings(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [currentUser.data._id]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -181,7 +181,6 @@ const Profile = () => {
       });
   };
 
-
   const handleDeleteUser = (e) => {
     e.preventDefault();
     dispatch(deleteUserStart());
@@ -198,7 +197,6 @@ const Profile = () => {
         dispatch(deleteUserFailure(err.message));
       });
   };
-  
 
   const signOutUser = (e) => {
     e.preventDefault();
@@ -407,6 +405,16 @@ const Profile = () => {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+        <div>
+          <div className="grid md:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center px-5">
+            {listings &&
+              listings.map((listing, index) => (
+                <div key={index}>
+                  <ListingCard listing={listing} />
+                </div>
+              ))}
           </div>
         </div>
       </div>

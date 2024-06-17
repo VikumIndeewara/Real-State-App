@@ -5,6 +5,7 @@ import SearchBar from '../Components/SearchBar';
 const Home = () => {
   const backgroundImageUrl = `url(${backgroundImage})`;
   return (
+    <div>
     <div style={{ 
       backgroundImage:`linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.3)), ${backgroundImageUrl}`, 
       backgroundSize: 'cover'}}>
@@ -28,6 +29,8 @@ const Home = () => {
       </div>
     </div>
     </div>
+    </div>
+
     </div>
   )
 }
