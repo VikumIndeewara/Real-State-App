@@ -11,7 +11,7 @@ import app from "../firebase/firebase.js";
 import { FaRegEdit } from "react-icons/fa";
 import { TiTick } from "react-icons/ti";
 import { IoClose } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import {
   updateUserStart,
@@ -26,6 +26,7 @@ import {
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import ListingCard from "../Components/ListingCard.jsx";
+import { IoIosAddCircle } from "react-icons/io";
 // import { signOut } from "firebase/auth";
 // import LoadingSpinner from '../Components/LoadingSpinner.jsx';
 
@@ -213,6 +214,21 @@ const Profile = () => {
       .catch((err) => {
         console.log(err);
         dispatch(signOutUserFailure(err));
+      });
+  };
+
+  const handleDeleteListing = (index) => {
+    const listingId = listings[index]._id;
+    const link = `http://localhost:5555/listing/delete-listing/${listingId}`;
+    axios
+      .delete(link)
+      .then((res) => {
+        console.log(res);
+        const updatedListings = listings.filter((_, i) => i != index);
+        setListings(updatedListings);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -412,18 +428,35 @@ const Profile = () => {
             <span className="px-10">
               You have {listings.length} listings available!
             </span>
-            <hr className="my-3"/>
+            <hr className="my-3" />
             <div className="grid md:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center px-5 w-full h-full">
               {listings &&
                 listings.map((listing, index) => (
                   <div key={index} className="p-1">
                     <ListingCard listing={listing} />
                     <div className="grid grid-cols-2 gap-4 my-2 mx-2">
-                      <button className="border-0 ring-2 ring-green-400 rounded-md px-10 py-1 hover:ring-1 hover:shadow-lg font-medium bg-green-50">EDIT</button>
-                      <button className="border-0 ring-2 ring-red-400 rounded-md px-10 py-1 hover:ring-1 hover:shadow-lg font-medium bg-red-50">DELETE</button>
+                      <button className="border-0 ring-2 ring-green-400 rounded-md py-1 hover:ring-1 hover:shadow-lg font-medium bg-green-50 text-center">
+                        EDIT
+                      </button>
+                      <button
+                        onClick={() => handleDeleteListing(index)}
+                        className="border-0 ring-2 ring-red-400 rounded-md py-1 hover:ring-1 hover:shadow-lg font-medium bg-red-50 text-center"
+                      >
+                        DELETE
+                      </button>
                     </div>
                   </div>
                 ))}
+
+              <div
+                className="flex flex-col justify-center items-center w-full h-full border border-gray-200 rounded-lg shadow bg-slate-100 cursor-pointer hover:shadow-xl"
+                onClick={() => navigate("/add-property")}
+              >
+                <IoIosAddCircle className="size-8 text-slate-800 " />
+                <span className="font-semibold text-slate-800 text-lg">
+                  Add New Listing
+                </span>
+              </div>
             </div>
           </div>
         </div>
