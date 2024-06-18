@@ -1,9 +1,11 @@
 import React from "react";
-import cardImage from "../assets/images/back2.jpg";
+import { useNavigate } from "react-router-dom";
+
 
 const ListingCard = ({ listing }) => {
+  const navigate = useNavigate();
   return (
-    <div className="grid grid-rows-2 max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
+    <div className="grid grid-rows-2 max-w-sm bg-white border border-gray-200 rounded-lg shadow" onClick={()=>navigate(`/listing/${listing._id}`)}>
     <a href="#">
       <img
         className="rounded-t-lg object-cover h-[210px] w-[400px]"
@@ -22,7 +24,7 @@ const ListingCard = ({ listing }) => {
         <p className="font-normal text-gray-700 ">Baths: {listing.baths}</p>
       </div>
       <p className="font-normal  text-gray-700 overflow-hidden overflow-ellipsis">{listing.price}$</p>
-      <button className="pt-5 inline-flex items-center text-sm font-medium text-center ">
+      <button className="pt-5 inline-flex items-center text-sm font-medium text-center " >
         Show more
         <svg
           className="rtl:rotate-180 w-3.5 h-3.5 ms-2"

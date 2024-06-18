@@ -1,15 +1,97 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState,useRef,useEffect } from 'react';
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import app from "../firebase/firebase.js";
+import { IoMdCloseCircle } from "react-icons/io";
 
-const ListingEditPopup = ({listingId}) => {
+const ListingEditPopup = ({listing}) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [updateListing,setUpdateListing]=useState(listing);
+  const [images,setImages]=useState([]);
+  const [uploadPerc,setUploadPerc]=useState('');
+  const fileRef = useRef(null);
+
+  const handleChange = (e)=>{
+    setUpdateListing({
+      ...updateListing,
+      [e.target.id]:e.target.value,
+    });
+    console.log(updateListing);
+  }
 
   const handleSubmit=()=>{
-    // const id = listingId;
-    // const link= 'http://localhost:5555/listing/update-listing'
-    // axios
-    // .put()
-  }
+    const id = listing._id;
+    const link= `http://localhost:5555/listing/update-listing/${id}`
+    axios
+    .put(link,updateListing)
+    .then((res)=>{
+      console.log(res)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+
+    }
+
+    const handleUpdateImages = async () => {
+      const imagesLinks = [];
+      for (let i = 0; i < images.length; i++) {
+        imagesLinks.push(uploadImages(images[i]));
+      }
+  
+      try {
+        const results = await Promise.all(imagesLinks);
+        setUpdateListing((prevData) => ({
+          ...prevData,
+          images: results,
+        }));
+      } catch (error) {
+        console.error("Error uploading images: ", error);
+      }
+    }
+  
+    const uploadImages = async (image) => {
+      return new Promise((resolve, reject) => {
+        const storage = getStorage(app);
+        const fileName = new Date().getTime() + image.name;
+        const storageRef = ref(storage, fileName);
+        const uploadTask = uploadBytesResumable(storageRef, image);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setUploadPerc(Math.round(progress));
+          },
+          (error) => {
+            console.error(error);
+            reject(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => resolve(downloadURL));
+          }
+        );
+      });
+    }
+    const selectImages=()=>{
+      fileRef.current.click();
+      if(images){
+        handleUpdateImages();
+      }
+      
+    }
+    const handleRemoveImage = (index, e) => {
+      e.preventDefault();
+      setUpdateListing((prevData) => ({
+        ...prevData,
+        images: prevData.images.filter((_, i) => i !== index)
+      }));
+    }
+  
 
   return (
     <div>
@@ -73,7 +155,8 @@ const ListingEditPopup = ({listingId}) => {
                     id="propertyname"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                     placeholder="Type product name"
-                    required
+                    value={updateListing.propertyname}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="col-span-2">
@@ -88,7 +171,8 @@ const ListingEditPopup = ({listingId}) => {
                     id="address"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                     placeholder="Type product name"
-                    required
+                    value={updateListing.address}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="col-span-2 sm:col-span-1">
@@ -100,12 +184,12 @@ const ListingEditPopup = ({listingId}) => {
                   </label>
                   <input
                     type="number"
-                    name="price"
                     id="price"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     placeholder="$2999"
+                    value={updateListing.price}
+                    onChange={handleChange}
                     min={1}
-                    required
                   />
                 </div>
                 <div className="flex gap-4">
@@ -121,8 +205,9 @@ const ListingEditPopup = ({listingId}) => {
                     id="beds"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     placeholder="1"
+                    value={updateListing.beds}
+                    onChange={handleChange}
                     min={1}
-                    required
                   />
                 </div>
                 <div className="col-span-2 sm:col-span-1">
@@ -137,8 +222,9 @@ const ListingEditPopup = ({listingId}) => {
                     id="baths"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     placeholder="1"
+                    value={updateListing.baths}
+                    onChange={handleChange}
                     min={1}
-                    required
                   />
                 </div>
                 <div className="col-span-2 sm:col-span-1">
@@ -153,8 +239,9 @@ const ListingEditPopup = ({listingId}) => {
                     id="floors"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     placeholder="1"
+                    value={updateListing.floors}
+                    onChange={handleChange}
                     min={1}
-                    required
                   />
                 </div>
                 </div>
@@ -170,9 +257,33 @@ const ListingEditPopup = ({listingId}) => {
                     rows="4"
                     className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Write product description here"
+                    value={updateListing.description}
+                    onChange={handleChange}
                   ></textarea>
                 </div>
+                <span onClick={selectImages} className="cursor-pointer hover:text-blue-500">Upload a file</span>
+                <input
+                            id="images"
+                            type="file"
+                            className="sr-only"
+                            accept="image/*"
+                            multiple
+                            ref={fileRef}
+                            onChange={(e) => {
+                              setImages(e.target.files);
+                            }}
+                          />
               </div>
+              <div className="flex gap-4">
+                  {updateListing.images && updateListing.images.map((url, index) => (
+                    <div key={index} className="relative ">
+                      <button onClick={(e) => handleRemoveImage(index, e)} className="absolute top-2 right-2 text-red-600">
+                        <IoMdCloseCircle size={24} />
+                      </button>
+                      <img key={index} src={url} alt={`Uploaded image ${index}`} className="h-[50px] w-[50px] object-cover rounded-lg"/>
+                    </div>
+                  ))}
+                </div>
               <button
               onClick={handleSubmit}
                 type="submit"

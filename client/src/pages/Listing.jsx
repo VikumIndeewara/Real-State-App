@@ -51,7 +51,7 @@ const Listing = () => {
               </div>
             </>
           )}
-          <div className="my-2 sm:my-0 text-xl">{listing.address}</div>
+          <div className="my-2 sm:my-0 text-xl font-medium">{listing.address}</div>
           <div className="flex items-center col-span-2 justify-between text-2xl my-2 font-semibold sm:my-0">
             <div>{listing.price}$</div>
             <div className="flex items-center p-2">

@@ -11,7 +11,7 @@ import app from "../firebase/firebase.js";
 import { FaRegEdit } from "react-icons/fa";
 import { TiTick } from "react-icons/ti";
 import { IoClose } from "react-icons/io5";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   updateUserStart,
@@ -436,7 +436,7 @@ const Profile = () => {
                   <div key={index} className="p-1">
                     <ListingCard listing={listing} />
                     <div className="grid grid-cols-2 gap-4 my-2 mx-2">
-                      <ListingEditPopup listingId={listings[index]._id} className="w-full"/>
+                      <ListingEditPopup listing={listing} className="w-full"/>
                       <button
                         onClick={() => handleDeleteListing(index)}
                         className="border-0 ring-2 ring-red-400 rounded-md py-1 hover:ring-1 hover:shadow-lg font-medium bg-red-50 text-center"
