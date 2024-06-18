@@ -27,6 +27,7 @@ import {
 import { useDispatch } from "react-redux";
 import ListingCard from "../Components/ListingCard.jsx";
 import { IoIosAddCircle } from "react-icons/io";
+import ListingEditPopup from "../Components/ListingEditPopup.jsx";
 // import { signOut } from "firebase/auth";
 // import LoadingSpinner from '../Components/LoadingSpinner.jsx';
 
@@ -435,9 +436,7 @@ const Profile = () => {
                   <div key={index} className="p-1">
                     <ListingCard listing={listing} />
                     <div className="grid grid-cols-2 gap-4 my-2 mx-2">
-                      <button className="border-0 ring-2 ring-green-400 rounded-md py-1 hover:ring-1 hover:shadow-lg font-medium bg-green-50 text-center">
-                        EDIT
-                      </button>
+                      <ListingEditPopup listingId={listings[index]._id} className="w-full"/>
                       <button
                         onClick={() => handleDeleteListing(index)}
                         className="border-0 ring-2 ring-red-400 rounded-md py-1 hover:ring-1 hover:shadow-lg font-medium bg-red-50 text-center"
@@ -449,7 +448,7 @@ const Profile = () => {
                 ))}
 
               <div
-                className="flex flex-col justify-center items-center w-full h-full border border-gray-200 rounded-lg shadow bg-slate-100 cursor-pointer hover:shadow-xl"
+                className="flex flex-col justify-center max-w-sm items-center w-full h-[450px] border-gray-200 rounded-lg shadow bg-slate-100 cursor-pointer hover:shadow-xl"
                 onClick={() => navigate("/add-property")}
               >
                 <IoIosAddCircle className="size-8 text-slate-800 " />

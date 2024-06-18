@@ -32,4 +32,17 @@ export const deleteListing=async(req,res,next)=>{
         next(err)
     }
 }
+ export const updateListing=async(req,res,next)=>{
+    try{
+        const { id } = req.params;
+        const updatedResult = await Listing.findByIdAndUpdate(id,req.body,{ new: true });
 
+        if(!updatedResult){
+            return res.status(400).json({message:"listing not found!!"})
+        }
+        return res.status(200).json(updatedResult)
+
+    }catch(err){
+        next(err)
+    }
+ }
