@@ -1,21 +1,52 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import SwiperCore from 'swiper';
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 
 const ListingCard = ({ listing }) => {
+  SwiperCore.use([Navigation]);
   const navigate = useNavigate();
   return (
-    <div className="grid grid-rows-2 max-w-sm bg-white border border-gray-200 rounded-lg shadow" onClick={()=>navigate(`/listing/${listing._id}`)}>
-    <a href="#">
+    <div className="grid grid-rows-2 max-w-sm bg-white border border-gray-200 rounded-lg shadow" >
+    {/* <a href="#">
       <img
         className="rounded-t-lg object-cover h-[210px] w-[400px]"
         src={listing.images[0]}
         alt="property cover image"
       />
-    </a>
+    </a> */}
+    {console.log(listing.images)}
+        <Swiper
+      className="w-[320px]"
+      modules={[Navigation, Pagination, Scrollbar, A11y]}
+      spaceBetween={0}
+      slidesPerView={1}
+      navigation
+      pagination={{ clickable: true }}
+      scrollbar={{ draggable: true }}
+      onSwiper={(swiper) => console.log(swiper)}
+      onSlideChange={() => console.log('slide change')}
+    >
+      {listing.images.map((image)=>(
+        <SwiperSlide key={image}>
+              <img 
+              className="rounded-t-lg object-cover h-[210px]"
+              src={image}
+              alt="property cover image"
+            />
+            </SwiperSlide>
+      ))}
+    </Swiper>
 
     <div className="px-5 py-3 grid grid-rows-5 " style={{ gridTemplateRows: '48px 28px 28px 28px 28px' }}>
-        <h5 className="font-bold tracking-tight text-gray-900 overflow-hidden overflow-ellipsis">
+        <h5 className="font-bold tracking-tight text-gray-900 overflow-hidden overflow-ellipsis" onClick={()=>navigate(`/listing/${listing._id}`)}>
           {listing.propertyname}
         </h5>
       <p className="font-normal text-gray-700 overflow-hidden overflow-ellipsis">{listing.address}</p>
@@ -24,7 +55,7 @@ const ListingCard = ({ listing }) => {
         <p className="font-normal text-gray-700 ">Baths: {listing.baths}</p>
       </div>
       <p className="font-normal  text-gray-700 overflow-hidden overflow-ellipsis">{listing.price}$</p>
-      <button className="pt-5 inline-flex items-center text-sm font-medium text-center " >
+      <button className="pt-5 inline-flex items-center text-sm font-medium text-center " onClick={()=>navigate(`/listing/${listing._id}`)} >
         Show more
         <svg
           className="rtl:rotate-180 w-3.5 h-3.5 ms-2"

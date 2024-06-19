@@ -13,6 +13,7 @@ const ListingEditPopup = ({listing}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [updateListing,setUpdateListing]=useState(listing);
   const [images,setImages]=useState([]);
+  const [loading,setLoading]=useState(false);
   const [uploadPerc,setUploadPerc]=useState('');
   const fileRef = useRef(null);
 
@@ -48,8 +49,9 @@ const ListingEditPopup = ({listing}) => {
         const results = await Promise.all(imagesLinks);
         setUpdateListing((prevData) => ({
           ...prevData,
-          images: results,
+          images: [...prevData.images, ...results],
         }));
+        setLoading(false);
       } catch (error) {
         console.error("Error uploading images: ", error);
       }
@@ -66,6 +68,7 @@ const ListingEditPopup = ({listing}) => {
           (snapshot) => {
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             setUploadPerc(Math.round(progress));
+            console.log(uploadPerc);
           },
           (error) => {
             console.error(error);
@@ -261,6 +264,8 @@ const ListingEditPopup = ({listing}) => {
                     onChange={handleChange}
                   ></textarea>
                 </div>
+                {loading ? (<span>Loading.....!</span>):
+                <div>
                 <span onClick={selectImages} className="cursor-pointer hover:text-blue-500">Upload a file</span>
                 <input
                             id="images"
@@ -273,6 +278,7 @@ const ListingEditPopup = ({listing}) => {
                               setImages(e.target.files);
                             }}
                           />
+                          </div>}
               </div>
               <div className="flex gap-4">
                   {updateListing.images && updateListing.images.map((url, index) => (
