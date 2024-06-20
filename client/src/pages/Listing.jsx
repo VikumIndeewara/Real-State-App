@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { IoCall } from "react-icons/io5";
 import { FaBed } from "react-icons/fa";
 import { FaBath } from "react-icons/fa";
@@ -9,6 +9,13 @@ import { GiFamilyHouse } from "react-icons/gi";
 const Listing = () => {
   const { id } = useParams();
   const [listing, setListing] = useState({});
+  const [ownerDetails,setOwnerDetails]=useState({});
+  const [message,setMessage]=useState('');
+
+  const onChange=(e)=>{
+    e.preventDefault();
+    setMessage(e.target.value);
+  }
 
   useEffect(() => {
     axios
@@ -21,6 +28,17 @@ const Listing = () => {
         console.log(err);
       });
   }, [id]);
+
+  useEffect(()=>{
+    axios
+    .get(`http://localhost:5555/user/getUser/${listing.userRef}`)
+    .then((res) => {
+      setOwnerDetails(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  },[listing.userRef])
   return (
     <div className="">
       <h1 className="mx-auto mt-5 text-center text-3xl font-bold leading-9 tracking-tight text-gray-900">
@@ -78,6 +96,20 @@ const Listing = () => {
                 Floors:{listing.floors}
               </div>
             </div>
+          </div>
+          <hr className="col-span-2 w-full mt-10 border-t-2 border-gray-300" />
+          <div className="col-span-2">
+              <div className="flex justify-center items-center gap-10">
+                <div className="text-center">
+                    <img src={ownerDetails.avatar} alt="owner picture" className="rounded-full object-cover" />
+                    <span>{ownerDetails.username}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span>Contact {ownerDetails.username} for {listing.propertyname}</span>
+                  <textarea type="text" id="message" value={message} onChange={onChange} placeholder="Send A Message!" rows={3} className="ring-2 ring-slate-500  p-2 my-2 rounded-md"></textarea>
+                  <Link to={`mailto:${ownerDetails.email}?subject=Regarding ${listing.propertyname} $body=${message}`} className='bg-slate-700 text-white text-center p-3 uppercase rounded-lg hover:opacity-95'>Send Message</Link>
+                </div>
+              </div>
           </div>
         </div>
       </div>

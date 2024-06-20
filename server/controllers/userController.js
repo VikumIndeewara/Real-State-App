@@ -10,6 +10,24 @@ export const test = (req, res) => {
   });
 };
 
+export const getUser=async(req,res,next)=>{
+  try{
+    const { id } = req.params;
+    const userData={};
+    const userResult = await User.findById(id)
+    if(!userResult){
+      return res.status(400).json({message:'Cannot find the user!'})
+    }
+    userData.username=userResult.username;
+    userData.email=userResult.email;
+    userData.avatar=userResult.avatar;
+    return res.status(201).json(userData);
+
+  }catch(err){
+    next(err)
+  }
+}
+
 export const update = async (req, res) => {
   try {
     const updateData = {};
