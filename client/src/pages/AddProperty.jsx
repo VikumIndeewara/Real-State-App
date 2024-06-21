@@ -109,7 +109,7 @@ const AddProperty = () => {
       <form>
         <div className="flex min-h-full flex-col justify-center items-center mx-auto px-6 py-12 sm:px-6 lg:px-8">
           <div className="w-full max-w-5xl sm:mx-auto">
-            <div className="flex flex-wrap gap-10 w-full">
+            <div className="flex flex-col md:flex-row gap-10 w-full">
               <div className="flex-1">
                 <div className="w-full mb-10">
                   <label

@@ -9,6 +9,7 @@ import AddProperty from './pages/AddProperty.jsx'
 import Profile from './pages/Profile.jsx'
 import PrivateRoute from './Components/PrivateRoute.jsx'
 import Listing from './pages/Listing.jsx'
+import Search from './pages/Search.jsx'
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
       <Route path="/sign-up" element={<SignUp/>} />
       <Route path="/about-us" element={<AboutUs/>} />
       <Route path="/listing/:id" element={<Listing/>} />
+      <Route path="/search" element={<Search/>}/>
       <Route element={<PrivateRoute/>}>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/add-property' element={<AddProperty/>}/>

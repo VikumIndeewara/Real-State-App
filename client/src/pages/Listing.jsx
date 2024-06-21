@@ -101,12 +101,12 @@ const Listing = () => {
           <div className="col-span-2">
               <div className="flex justify-center items-center gap-10">
                 <div className="text-center">
-                    <img src={ownerDetails.avatar} alt="owner picture" className="rounded-full object-cover" />
+                    <img src={ownerDetails.avatar} alt="owner picture" className="rounded-full object-cover w-[200px] h-[200px]" />
                     <span>{ownerDetails.username}</span>
                 </div>
                 <div className="flex flex-col">
                   <span>Contact {ownerDetails.username} for {listing.propertyname}</span>
-                  <textarea type="text" id="message" value={message} onChange={onChange} placeholder="Send A Message!" rows={3} className="ring-2 ring-slate-500  p-2 my-2 rounded-md"></textarea>
+                  <textarea type="text" id="message" value={message} onChange={onChange} placeholder="Send A Message!" rows={3} className="ring-2 ring-slate-500  p-2 my-2 rounded-md min-w-[250px]"></textarea>
                   <Link to={`mailto:${ownerDetails.email}?subject=Regarding ${listing.propertyname} $body=${message}`} className='bg-slate-700 text-white text-center p-3 uppercase rounded-lg hover:opacity-95'>Send Message</Link>
                 </div>
               </div>

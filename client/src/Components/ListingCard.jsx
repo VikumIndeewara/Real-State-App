@@ -14,7 +14,7 @@ const ListingCard = ({ listing }) => {
   SwiperCore.use([Navigation]);
   const navigate = useNavigate();
   return (
-    <div className="grid grid-rows-2 max-w-sm bg-white border border-gray-200 rounded-lg shadow" >
+    <div className="grid grid-rows-2 bg-white border border-gray-200 rounded-lg shadow w-[320px]" >
     {/* <a href="#">
       <img
         className="rounded-t-lg object-cover h-[210px] w-[400px]"
@@ -37,7 +37,7 @@ const ListingCard = ({ listing }) => {
       {listing.images.map((image)=>(
         <SwiperSlide key={image}>
               <img 
-              className="rounded-t-lg object-cover h-[210px]"
+              className="rounded-t-lg object-cover h-[210px] w-[320px]"
               src={image}
               alt="property cover image"
             />
