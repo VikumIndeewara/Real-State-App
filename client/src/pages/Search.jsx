@@ -10,19 +10,13 @@ const Search = () => {
     const location = useLocation();
 
     useEffect(()=>{
-
-        console.log('test search page')
         const urlParams = new URLSearchParams(location.search)
-        const sort = urlParams.get('sort')
-        const order = urlParams.get('order')
-        console.log('params',urlParams)
 
-        if(sort||order){
-            setSearchFilter({
-                sort:sort||'createdAt',
-                order:order||'desc',
-            })
+        if(searchFilter.sort && searchFilter.order){
+          urlParams.set('sort',searchFilter.sort)
+          urlParams.set('order',searchFilter.order)
         }
+
 
         const getListing=()=>{
             const searchQuery = urlParams.toString();
@@ -39,16 +33,13 @@ const Search = () => {
         }
         getListing();
 
-    },[location.search])
+    },[location.search,searchFilter])
 
     const handleChange=(e)=>{
-      const sort = e.target.value.split('_')[0] || 'createdAt';
-      const order = e.target.value.split('_')[1] || 'desc';
-
-      setSearchFilter({
-        sort:sort,
-        order:order
-      })
+      const sort = e.target.value.split('_')[0];
+      const order = e.target.value.split('_')[1];
+  
+      setSearchFilter({sort:sort,order:order})
     }
 
   return (
