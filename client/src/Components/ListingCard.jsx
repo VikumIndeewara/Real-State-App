@@ -22,7 +22,7 @@ const ListingCard = ({ listing }) => {
         alt="property cover image"
       />
     </a> */}
-    {console.log(listing.images)}
+    {/* {console.log(listing.images)} */}
         <Swiper
       className="w-[320px]"
       modules={[Navigation, Pagination, Scrollbar, A11y]}
@@ -31,8 +31,8 @@ const ListingCard = ({ listing }) => {
       navigation
       pagination={{ clickable: true }}
       scrollbar={{ draggable: true }}
-      onSwiper={(swiper) => console.log(swiper)}
-      onSlideChange={() => console.log('slide change')}
+      // onSwiper={(swiper) => console.log(swiper)}
+      // onSlideChange={() => console.log('slide change')}
     >
       {listing.images.map((image)=>(
         <SwiperSlide key={image}>
