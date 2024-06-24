@@ -10,7 +10,6 @@ const Search = () => {
   const [searchFilter, setSearchFilter] = useState({});
   const [listings, setListings] = useState([]);
   const [pages, setPages] = useState({});
-  const [pageNumbers,setPageNumbers]=useState([]);
   const [totalListings, setTotalListings] = useState("");
   const [pageNumber, setPageNumber] = useState(0);
   const [startIndex, setStartIndex] = useState(0);
@@ -62,7 +61,7 @@ const Search = () => {
     console.log("pn", pageNumber);
   };
   useEffect(() => {
-    setStartIndex(pageNumber * 9);
+    setStartIndex(pageNumber*9);
     console.log("pn2", pageNumber);
   }, [pageNumber]);
 
@@ -72,7 +71,26 @@ const Search = () => {
     }
   };
   const nextPage = () => {
+    if (pageNumber < pages - 1) {
     setPageNumber(pageNumber + 1);
+    }
+  };
+  const getPageNumbers = () => {
+    const maxPagesToShow = 5;
+    let startPage = Math.max(0, pageNumber - Math.floor(maxPagesToShow / 2));
+    let endPage = startPage + maxPagesToShow;
+
+    if (endPage > pages) {
+      endPage = pages;
+      startPage = Math.max(0, endPage - maxPagesToShow);
+    }
+
+    const pageNumbers = [];
+    for (let i = startPage; i < endPage; i++) {
+      pageNumbers.push(i);
+    }
+
+    return pageNumbers;
   };
 
   return (
@@ -111,75 +129,46 @@ const Search = () => {
           </div>
         </div>
       </div>
-      {pages && (
-            <div className="flex justify-center gap-4 m-10">
-              <button onClick={prevPage} disabled={pageNumber === 0}>
-                <MdKeyboardArrowLeft />
+      {pages > 1 && (
+        <div className="flex justify-center gap-4 m-10">
+          <button onClick={prevPage} disabled={pageNumber === 0}>
+            <MdKeyboardArrowLeft />
+          </button>
+          {pageNumber > Math.floor(getPageNumbers().length / 2) && getPageNumbers()[0] !== 0 &&(
+            <>
+              <button onClick={handlePageChange} id="0" className="ring-1 ring-black px-2 py-1 rounded-md">
+                1
               </button>
-              {[...Array(pages)].map((_, index) => (
-                <button
-                  onClick={handlePageChange}
-                  id={index.toString()}
-                  key={index}
-                  aria-current={pageNumber === index ? "page" : undefined}
-                  className={`ring-1 active ring-black px-2 py-1 rounded-md ${
-                    pageNumber === index ? "bg-gray-300" : ""
-                  }`}
-                >
-                  {index+1}
-                </button>
-              ))}
-              <button onClick={nextPage}  disabled={pageNumber === pages - 1}>
-                <MdOutlineKeyboardArrowRight />
-              </button>
-            </div>
+              <span>...</span>
+            </>
           )}
-      {/* <div className="flex justify-center gap-2 m-10">
+          {getPageNumbers().map((page) => (
             <button
-            onClick={prevPage}>
-              <MdKeyboardArrowLeft/>
+              key={page}
+              onClick={handlePageChange}
+              id={page.toString()}
+              aria-current={pageNumber === page ? "page" : undefined}
+              className={`ring-1 ring-black px-2 py-1 rounded-md ${
+                pageNumber === page ? "bg-gray-300" : ""
+              } focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
+            >
+              {page + 1}
             </button>
-          <button
-                onClick={handlePageChange}
-                id="0"
-                 key={1} 
-                 aria-current={pageNumber === index ? "page" : undefined}
-                  className={`ring-1 active ring-black px-2 py-1 rounded-md ${pageNumber === index ? "bg-gray-300" : ""}`}>
-                    1
-            </button>
-            <button
-            onClick={handlePageChange}
-            id="1"
-                 key={2} 
-                  className="ring-1 ring-black px-2 py-1 rounded-md">
-                    2
-            </button>
-            <button
-            onClick={handlePageChange}
-            id="2"
-                 key={3}
-                  className="ring-1 ring-black px-2 py-1 rounded-md">
-                    3
-            </button>
-            <button
-            onClick={handlePageChange}
-            id="3"
-                 key={4} 
-                  className="ring-1 ring-black px-2 py-1 rounded-md">
-                    4
-            </button>
-            <button
-            onClick={handlePageChange}
-            id="4"
-                 key={5} 
-                  className="ring-1 ring-black px-2 py-1 rounded-md">
-                    5
-            </button>
-            <button
-            onClick={nextPage}>
-              <MdOutlineKeyboardArrowRight/>
-            </button>
-          </div> */}
+          ))}
+          {pageNumber < pages - Math.ceil(getPageNumbers().length / 2) && getPageNumbers().slice(-1)[0] !== pages - 1 && (
+            <>
+              <span>...</span>
+              <button onClick={handlePageChange} id={(pages - 1).toString()} className="ring-1 ring-black px-2 py-1 rounded-md">
+                {pages}
+              </button>
+            </>
+          )}
+          <button onClick={nextPage} disabled={pageNumber === pages - 1}>
+            <MdOutlineKeyboardArrowRight />
+          </button>
+        </div>
+      )}
+
     </div>
   );
 };
