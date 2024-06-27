@@ -45,24 +45,24 @@ const Listing = () => {
         {listing.propertyname}
       </h1>
       <div>
-        <div className="md:grid md:grid-cols-2 flex-wrap gap-5 w-full px-5 my-10 mx-auto md:px-10 lg:px-20 lg:w-[1200px]">
+        <div className="md:grid md:grid-cols-2 flex-wrap gap-2 w-full px-5 my-10 mx-auto md:px-10 lg:px-20 lg:w-[1100px]">
           {listing.images && listing.images.length > 0 && (
             <>
               <div className="">
                 <img
                   src={listing.images[0]}
                   alt={`Image 1 of ${listing.propertyname}`}
-                  className="h-full w-full object-cover object-center"
+                  className="h-full w-full object-cover object-center rounded-md"
                 />
               </div>
-              <div className="hidden md:grid md:grid-cols-2 gap-5 items-center">
+              <div className="hidden md:grid md:grid-cols-2 gap-2 items-center">
                 {listing.images.slice(1).map((image, index) => (
                   <div key={index} className="">
                     <img
                       key={index}
                       src={image}
                       alt={`Image ${index + 2} of ${listing.propertyname}`}
-                      className="h-full w-full object-cover object-center"
+                      className="lg:h-[220px] md:h-[150px] w-full object-cover object-center rounded-md"
                     />
                   </div>
                 ))}
@@ -71,7 +71,7 @@ const Listing = () => {
           )}
           <div className="my-2 sm:my-0 text-xl font-medium">{listing.address}</div>
           <div className="flex items-center col-span-2 justify-between text-2xl my-2 font-semibold sm:my-0">
-            <div>{listing.price}$</div>
+            <div>{listing.price && listing.price.toLocaleString('en-US')}$</div>
             <div className="flex items-center p-2">
               <IoCall />
               {listing.contactnumber}

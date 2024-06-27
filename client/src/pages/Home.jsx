@@ -1,9 +1,70 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import backgroundImage from "../assets/images/back3.jpg";
 import SearchBar from "../Components/SearchBar";
+import ListingCard from "../Components/ListingCard";
+import axios from "axios";
+import { register } from "swiper/element/bundle";
+register();
+
+import illustration1 from "../assets/images/illustration1.jpg";
+import illustration2 from "../assets/images/illustration2.jpg";
+import illustration3 from "../assets/images/illustration3.svg";
+import FAQSection from "../Components/FAQSection";
+import Footer from "../Components/Footer";
 
 const Home = () => {
   const backgroundImageUrl = `url(${backgroundImage})`;
+  const [listings, setListings] = useState([]);
+  const swiperRef = useRef(null);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5555/listing/search-listings`)
+      .then((res) => {
+        setListings(res.data.listings);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (swiperRef.current && listings.length > 0) {
+      const swiperEl = swiperRef.current;
+
+      const swiperParams = {
+        slidesPerView: 4,
+        breakpoints: {
+          300: {
+            slidesPerView: 2,
+            width: 650,
+          },
+          480: {
+            slidesPerView: 2,
+            width: 650,
+          },
+          600: {
+            slidesPerView: 2,
+            width: 650,
+          },
+          1024: {
+            slidesPerView: 3,
+            width: 980,
+          },
+        },
+        navigation: true,
+        on: {
+          init() {
+            // Additional initialization code if needed
+          },
+        },
+      };
+
+      Object.assign(swiperEl, swiperParams);
+      swiperEl.initialize();
+    }
+  }, [listings]);
+
   return (
     <div>
       <div
@@ -40,6 +101,77 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <div className="mx-2 md:mx-20 mt-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col">
+            <div className="mb-5">
+              <span className="font-bold text-2xl">Featured Listings</span>
+              <p className="text-slate-600 mt-1">
+                Discover Most suitable houses and apartments for rent.
+              </p>
+            </div>
+            <div>
+              {listings.length > 0 && (
+                <swiper-container ref={swiperRef} init="false">
+                  {listings.map((listing, index) => (
+                    <swiper-slide key={index}>
+                      <ListingCard listing={listing} />
+                    </swiper-slide>
+                  ))}
+                </swiper-container>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-center my-24">
+          <div className="text-center max-w-xl">
+            <span className="font-bold text-2xl">Why Choose Us?</span>
+            <p className="text-slate-600 mt-1">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque ea
+              pariatur accusamus nulla obcaecati impedit. At exercitationem est
+              ratione libero soluta, magni saepe unde iure distinctio. Autem,
+              cumque illum! Est.
+            </p>
+          </div>
+        </div>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row gap-4 text-center my-5">
+            <div className="flex flex-col items-center">
+              <img
+                src={illustration1}
+                className="w-[300px] h-[150px] lg:w-[500px] lg:h-[300px]  object-cover mb-5"
+              />
+              <span className="font-semibold">Easy to choose a place</span>
+              <p className="text-slate-600 mt-1">
+                Find your next roof hassle free.
+              </p>
+            </div>
+            <div className="flex flex-col items-center">
+              <img
+                src={illustration2}
+                className="w-[300px] h-[150px] lg:w-[500px] lg:h-[300px]  object-cover mb-5"
+              />
+              <span className="font-semibold">Seamless communication</span>
+              <p className="text-slate-600 mt-1">
+                Manage Seamless communication with customers
+              </p>
+            </div>
+            <div className="flex flex-col items-center">
+              <img
+                src={illustration3}
+                className="w-[300px] h-[150px] lg:w-[500px] lg:h-[300px] object-cover mb-5"
+              />
+              <span className="font-semibold">Easy to list</span>
+              <p className="text-slate-600 mt-1">
+                List your property without any hassle.
+              </p>
+            </div>
+          </div>
+        </div>
+        <FAQSection />
+        <Footer />
+      </div>
+
     </div>
   );
 };

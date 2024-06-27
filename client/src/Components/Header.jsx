@@ -7,7 +7,7 @@ import Dropdown from './Dropdown';
 const Header = () => {
 
   return (
-    <header className="flex flex-row items-center justify-between py-3 px-20 border-b-2 bg-gray-100">
+    <header className="flex flex-row items-center justify-between px-10 py-3 border-b-2 bg-gray-100">
         <Link to="/">
             <h1>LOGO</h1>
         </Link>

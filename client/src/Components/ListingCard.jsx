@@ -37,7 +37,7 @@ const ListingCard = ({ listing }) => {
       {listing.images.map((image)=>(
         <SwiperSlide key={image}>
               <img 
-              className="rounded-t-lg object-cover h-[210px] w-[320px]"
+              className="rounded-t-lg object-cover h-[210px] w-[320px] hover:scale-105 transition-scale duration-300 "
               src={image}
               alt="property cover image"
             />

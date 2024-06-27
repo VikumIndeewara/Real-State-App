@@ -430,32 +430,37 @@ const Profile = () => {
               You have {listings.length} listings available!
             </span>
             <hr className="my-3" />
-            <div className="grid md:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center px-5 w-full h-full">
-              {listings &&
-                listings.map((listing, index) => (
-                  <div key={index} className="p-1">
-                    <ListingCard listing={listing} />
-                    <div className="grid grid-cols-2 gap-4 my-2 mx-2">
-                      <ListingEditPopup listing={listing} className="w-full"/>
-                      <button
-                        onClick={() => handleDeleteListing(index)}
-                        className="border-0 ring-2 ring-red-400 rounded-md py-1 hover:ring-1 hover:shadow-lg font-medium bg-red-50 text-center"
-                      >
-                        DELETE
-                      </button>
+            <div className="flex flex-row flex-wrap gap-4 justify-center px-5 w-full h-full">
+    
+                {listings &&
+                  listings.map((listing, index) => (
+                    <div key={index} className="p-1">
+                      <ListingCard listing={listing} />
+                      <div className="grid grid-cols-2 gap-4 my-2 mx-2">
+                        <ListingEditPopup
+                          listing={listing}
+                          className="w-full"
+                        />
+                        <button
+                          onClick={() => handleDeleteListing(index)}
+                          className="border-0 ring-2 ring-red-400 rounded-md py-1 hover:ring-1 hover:shadow-lg font-medium bg-red-50 text-center"
+                        >
+                          DELETE
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
 
-              <div
-                className="flex flex-col justify-center max-w-sm items-center w-full h-[450px] border-gray-200 rounded-lg shadow bg-slate-100 cursor-pointer hover:shadow-xl"
-                onClick={() => navigate("/add-property")}
-              >
-                <IoIosAddCircle className="size-8 text-slate-800 " />
-                <span className="font-semibold text-slate-800 text-lg">
-                  Add New Listing
-                </span>
-              </div>
+                <div
+                  className="flex flex-col justify-center items-center w-[320px] h-[450px] border-gray-200 rounded-lg shadow bg-slate-100 cursor-pointer hover:shadow-xl"
+                  onClick={() => navigate("/add-property")}
+                >
+                  <IoIosAddCircle className="size-8 text-slate-800 " />
+                  <span className="font-semibold text-slate-800 text-lg">
+                    Add New Listing
+                  </span>
+                </div>
+           
             </div>
           </div>
         </div>
