@@ -10,6 +10,7 @@ import Profile from './pages/Profile.jsx'
 import PrivateRoute from './Components/PrivateRoute.jsx'
 import Listing from './pages/Listing.jsx'
 import Search from './pages/Search.jsx'
+import Footer from "./Components/Footer.jsx";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
         <Route path='/add-property' element={<AddProperty/>}/>
       </Route>
     </Routes>
+    <Footer/>
     </>
   )
 }

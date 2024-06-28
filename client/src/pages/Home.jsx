@@ -10,7 +10,7 @@ import illustration1 from "../assets/images/illustration1.jpg";
 import illustration2 from "../assets/images/illustration2.jpg";
 import illustration3 from "../assets/images/illustration3.svg";
 import FAQSection from "../Components/FAQSection";
-import Footer from "../Components/Footer";
+
 
 const Home = () => {
   const backgroundImageUrl = `url(${backgroundImage})`;
@@ -169,7 +169,6 @@ const Home = () => {
           </div>
         </div>
         <FAQSection />
-        <Footer />
       </div>
 
     </div>

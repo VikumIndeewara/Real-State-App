@@ -17,7 +17,7 @@ const SearchBar = () => {
     console.log(searchTerm,urlParams,searchQuery)
   }
   return (
-    <div className="mb-3 md:w-96 w-full px-5">
+    <div className="mb-3 md:w-96 w-full px-5 sticky top-0">
       <div className="relative mb-4 flex w-full flex-wrap items-stretch bg-gray-100 rounded-md">
         <input
           type="search"
