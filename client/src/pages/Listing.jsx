@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { IoCall } from "react-icons/io5";
 import { FaBed } from "react-icons/fa";
 import { FaBath } from "react-icons/fa";
+import ListingCard from "../Components/ListingCard";
 import { GiFamilyHouse } from "react-icons/gi";
+import { register } from "swiper/element/bundle";
+register();
 
 const Listing = () => {
   const { id } = useParams();
   const [listing, setListing] = useState({});
   const [ownerDetails,setOwnerDetails]=useState({});
   const [message,setMessage]=useState('');
+  const [similarListings,setSimilarListings] = useState([]);
+  const swiperRef = useRef(null);
 
   const onChange=(e)=>{
     e.preventDefault();
@@ -39,13 +44,59 @@ const Listing = () => {
       console.log(err);
     });
   },[listing.userRef])
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5555/listing/search-listings`)
+      .then((res) => {
+        setSimilarListings(res.data.listings);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  useEffect(() => {
+    if (swiperRef.current && similarListings.length > 0) {
+      const swiperEl = swiperRef.current;
+
+      const swiperParams = {
+        slidesPerView: 4,
+        breakpoints: {
+          300: {
+            slidesPerView: 2,
+            width: 650,
+          },
+          480: {
+            slidesPerView: 2,
+            width: 650,
+          },
+          600: {
+            slidesPerView: 2,
+            width: 650,
+          },
+          1024: {
+            slidesPerView: 3,
+            width: 980,
+          },
+        },
+        navigation: true,
+        on: {
+          init() {
+          },
+        },
+      };
+
+      Object.assign(swiperEl, swiperParams);
+      swiperEl.initialize();
+    }
+  }, [similarListings]);
   return (
     <div className="">
       <h1 className="mx-auto mt-5 text-center text-3xl font-bold leading-9 tracking-tight text-gray-900">
         {listing.propertyname}
       </h1>
       <div>
-        <div className="md:grid md:grid-cols-2 flex-wrap gap-2 w-full px-5 my-10 mx-auto md:px-10 lg:px-20 lg:w-[1100px]">
+        <div className="md:grid md:grid-cols-2 flex-wrap gap-4 w-full px-5 my-10 mx-auto md:px-10 lg:px-20 lg:w-[1100px]">
           {listing.images && listing.images.length > 0 && (
             <>
               <div className="">
@@ -69,16 +120,16 @@ const Listing = () => {
               </div>
             </>
           )}
-          <div className="my-2 sm:my-0 text-xl font-medium">{listing.address}</div>
+          <div className="my-2 pt-10 sm:my-0 col-span-2 text-xl font-medium">{listing.address}</div>
           <div className="flex items-center col-span-2 justify-between text-2xl my-2 font-semibold sm:my-0">
             <div>{listing.price && listing.price.toLocaleString('en-US')}$</div>
             <div className="flex items-center p-2">
               <IoCall />
-              {listing.contactnumber}
+              +{listing.contactnumber}
             </div>
           </div>
           <hr className="col-span-2 w-full border-t-2 border-gray-300" />
-          <div className="col-span-1">
+          <div className="col-span-1 min-h-[500px]">
             <p>{listing.description}</p>
           </div>
           <div className="col-span-1">
@@ -97,6 +148,19 @@ const Listing = () => {
               </div>
             </div>
           </div>
+          <h4 className="font-bold text-lg">Suggestions</h4>
+          <div className="col-span-2">
+              {similarListings.length > 0 && (
+                <swiper-container ref={swiperRef} init="false">
+                  {similarListings.map((listing, index) => (
+                    <swiper-slide key={index}>
+                      <ListingCard listing={listing} />
+                    </swiper-slide>
+                  ))}
+                </swiper-container>
+              )}
+            </div>
+
           <hr className="col-span-2 w-full mt-10 border-t-2 border-gray-300" />
           <div className="col-span-2">
               <div className="flex justify-center items-center gap-10">

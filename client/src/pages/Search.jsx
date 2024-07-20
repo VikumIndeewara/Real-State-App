@@ -38,7 +38,6 @@ const Search = () => {
             setListings(res.data.listings);
             setPages(res.data.totalPages);
             setTotalListings(res.data.totalListings);
-            // console.log("pages", res.data);
           })
           .catch((err) => {
             console.log(err);
@@ -58,11 +57,9 @@ const Search = () => {
 
   const handlePageChange = async (e) => {
     setPageNumber(Number(e.target.id));
-    console.log("pn", pageNumber);
   };
   useEffect(() => {
     setStartIndex(pageNumber*9);
-    console.log("pn2", pageNumber);
   }, [pageNumber]);
 
   const prevPage = () => {

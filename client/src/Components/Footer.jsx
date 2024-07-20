@@ -2,6 +2,7 @@ import React from "react";
 import { FaFacebook } from "react-icons/fa";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { FaLinkedin } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -9,28 +10,30 @@ const Footer = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <hr className="border-slate-200 my-5"/>
         <div className="flex justify-around">
-          <div>Logo</div>
+          <Link  to="/">
+          <img src="../logo.svg" alt="" className='h-[32px]'/>
+          </Link>
           <div className="flex flex-col gap-4">
             <span className="font-semibold">Legal</span>
-            <span className="text-slate-600">Privacy policy</span>
-            <span className="text-slate-600">Terms & Consitions</span>
+            <a href="#" className="text-slate-600">Privacy policy</a>
+            <a href="#" className="text-slate-600">Terms & Consitions</a>
           </div>
           <div className="flex flex-col gap-4">
             <span className="font-semibold">Details</span>
-            <span className="text-slate-600">About Us</span>
-            <span className="text-slate-600">Contact Us</span>
+            <a href="#" className="text-slate-600">About Us</a>
+            <a href="#" className="text-slate-600">Contact Us</a>
           </div>
           <div className="flex flex-col gap-4">
             <span className="font-semibold">Socials</span>
-            <span className="text-slate-600">
+            <a href="#" className="text-slate-600">
               <FaFacebook />
-            </span>
-            <span className="text-slate-600">
+            </a>
+            <a href="#" className="text-slate-600">
               <AiFillTwitterCircle />
-            </span>
-            <span className="text-slate-600">
+            </a>
+            <a href="#" className="text-slate-600">
               <FaLinkedin />
-            </span>
+            </a>
           </div>
         </div>
         <hr className="border-slate-200 my-5"/>

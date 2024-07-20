@@ -30,10 +30,10 @@ const FAQSection = () => {
               </div>
               <div className="accordion-group" data-accordion="default-accordion">
                 {[
-                  { title: "How to create an account?", content: "To create an account, find the 'Sign up' or 'Create account' button, fill out the registration form with your personal information, and click 'Create account' or 'Sign up.' Verify your email address if needed, and then log in to start using the platform." },
-                  { title: "Have any trust issue?", content: "Our focus on providing robust and user-friendly content management capabilities ensures that you can manage your content with confidence, and achieve your content marketing goals with ease." },
-                  { title: "How can I reset my password?", content: "Our focus on providing robust and user-friendly content management capabilities ensures that you can manage your content with confidence, and achieve your content marketing goals with ease." },
-                  { title: "What is the payment process?", content: "Our focus on providing robust and user-friendly content management capabilities ensures that you can manage your content with confidence, and achieve your content marketing goals with ease." },
+                  { title: "How to create an account?", content: "To create an account, find the 'Sign up' button, fill out the registration form with your personal information, and click 'Sign up.' Then log in to start using the platform." },
+                  { title: "How to upload photos?", content: "You can upload only five photos.You can't upload less or more than five images.Please make sure to upload high quality photos." },
+                  { title: "How to add a listing?", content: "Just go to add listing page and fill the form with relevant information and submit." },
+                  { title: "How to contact?", content: "You can contact the property owner by provided mobile number or you directly email by send message option on listing page." },
                 ].map((item, index) => (
                   <div key={index} className={`accordion py-5 border-b border-solid border-slate-600 ${activeIndex === index ? "active" : ""}`} id={`basic-heading-${index}`}>
                     <button

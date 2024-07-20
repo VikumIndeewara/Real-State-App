@@ -28,8 +28,6 @@ import { useDispatch } from "react-redux";
 import ListingCard from "../Components/ListingCard.jsx";
 import { IoIosAddCircle } from "react-icons/io";
 import ListingEditPopup from "../Components/ListingEditPopup.jsx";
-// import { signOut } from "firebase/auth";
-// import LoadingSpinner from '../Components/LoadingSpinner.jsx';
 
 axios.defaults.withCredentials = true;
 

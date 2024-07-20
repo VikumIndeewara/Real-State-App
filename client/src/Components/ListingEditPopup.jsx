@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState,useRef,useEffect } from 'react';
+import React, { useState,useRef } from 'react';
 import {
   getDownloadURL,
   getStorage,
@@ -8,6 +8,7 @@ import {
 } from "firebase/storage";
 import app from "../firebase/firebase.js";
 import { IoMdCloseCircle } from "react-icons/io";
+import PropTypes from 'prop-types'; 
 
 const ListingEditPopup = ({listing}) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -316,5 +317,18 @@ const ListingEditPopup = ({listing}) => {
     </div>
   );
 };
+
+ListingEditPopup.propTypes = {
+  listing: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    propertyname: PropTypes.string.isRequired,
+    address: PropTypes.string.isRequired,
+    images: PropTypes.arrayOf(PropTypes.string).isRequired,
+    beds: PropTypes.number.isRequired,
+    baths: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired
+  }).isRequired,
+};
+
 
 export default ListingEditPopup;

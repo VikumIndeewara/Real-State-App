@@ -8,6 +8,8 @@ const SignUp = () => {
   const navigate=useNavigate();
   const [loading,setLoading] = useState(false);
   const [formData,setFormData] = useState({});
+  const [errors,setErrors] = useState({});
+
   const handleChange = (e)=>{
     setFormData({
       ...formData,
@@ -16,8 +18,33 @@ const SignUp = () => {
     console.log(formData);
   }
 
-  const handleSubmit=(e)=>{
+  const handleFormValidation=(e)=>{
     e.preventDefault();
+    const formErrors={};
+
+    if (!formData.username){
+        formErrors.username = "Please Enter a valid username"
+    }
+    if (!formData.email) {
+      formErrors.email = "Please Enter a valid Email.";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      formErrors.email = "Email format is invalid.";
+    }
+
+    if (!formData.password) {
+      formErrors.password = "A password is required.";
+    } else if (formData.password.length > 0 && formData.password.length < 5) {
+      formErrors.password = "Please use a strong password!";
+      console.log(formData.password)
+    }
+    if (Object.keys(formErrors).length === 0) {
+      handleSubmit();
+    } else {
+      setErrors(formErrors);
+    }
+  }
+
+  const handleSubmit=()=>{
     setLoading(true);
     axios
     .post('http://localhost:5555/auth/sign-up',formData)
@@ -59,7 +86,9 @@ const SignUp = () => {
                 className="block p-5 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
+            {errors.username && <p className='text-red-500'>{errors.username}</p>}
           </div>
+          
 
           <div>
             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
@@ -76,7 +105,9 @@ const SignUp = () => {
                 className="block p-5 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
+            {errors.email && <p className='text-red-500'>{errors.email}</p>}
           </div>
+          
 
           <div>
             <div className="flex items-center justify-between">
@@ -97,14 +128,16 @@ const SignUp = () => {
                 className="block p-5 w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
+            {errors.password && <p className='text-red-500'>{errors.password}</p>}
           </div>
+          
 
           <div>
 
             <button
               type="submit"
               className="flex w-full justify-center rounded-full bg-red-600 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 mt-[50px]"
-              onClick={handleSubmit}
+              onClick={handleFormValidation}
               disabled={loading}
             >
               Sign Up

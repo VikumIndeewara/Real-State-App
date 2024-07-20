@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import SwiperCore from 'swiper';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import PropTypes from 'prop-types'; 
 
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -15,24 +15,13 @@ const ListingCard = ({ listing }) => {
   const navigate = useNavigate();
   return (
     <div className="grid grid-rows-2 bg-white border border-gray-200 rounded-lg shadow w-[320px]" >
-    {/* <a href="#">
-      <img
-        className="rounded-t-lg object-cover h-[210px] w-[400px]"
-        src={listing.images[0]}
-        alt="property cover image"
-      />
-    </a> */}
-    {/* {console.log(listing.images)} */}
         <Swiper
       className="w-[320px]"
       modules={[Navigation, Pagination, Scrollbar, A11y]}
       spaceBetween={0}
       slidesPerView={1}
-      navigation
       pagination={{ clickable: true }}
       scrollbar={{ draggable: true }}
-      // onSwiper={(swiper) => console.log(swiper)}
-      // onSlideChange={() => console.log('slide change')}
     >
       {listing.images.map((image)=>(
         <SwiperSlide key={image}>
@@ -79,6 +68,18 @@ const ListingCard = ({ listing }) => {
   </div>
   
   );
+};
+
+ListingCard.propTypes = {
+  listing: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    propertyname: PropTypes.string.isRequired,
+    address: PropTypes.string.isRequired,
+    images: PropTypes.arrayOf(PropTypes.string).isRequired,
+    beds: PropTypes.number.isRequired,
+    baths: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired
+  }).isRequired,
 };
 
 export default ListingCard;

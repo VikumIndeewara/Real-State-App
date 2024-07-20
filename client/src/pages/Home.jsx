@@ -55,7 +55,6 @@ const Home = () => {
         navigation: true,
         on: {
           init() {
-            // Additional initialization code if needed
           },
         },
       };
@@ -74,7 +73,7 @@ const Home = () => {
         }}
       >
         <div
-          className="mx-auto max-w-2xl py-32 sm:py-46 lg:py-36 relative"
+          className="mx-auto max-w-2xl py-32 sm:py-46 lg:py-36 relative animate-fade-out-down supports-no-scroll-driven-animations:animate-none [animation-range:0px_300px] [animation-timeline:scroll()]"
           style={{ backgroundSize: "cover" }}
         >
           <div className="hidden sm:mb-8 sm:flex sm:justify-center">
@@ -87,7 +86,7 @@ const Home = () => {
             </div>
           </div>
           <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl ">
               Houses and Apartments for Rent
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600">
@@ -102,10 +101,11 @@ const Home = () => {
         </div>
       </div>
       <div className="mx-2 md:mx-20 mt-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 animate-fade-in-left supports-no-view-driven-animations:animate-none [animation-range:0px_400px] [animation-timeline:view()] ">
+          {listings.length > 0 &&(
+          <div className="flex flex-col ">
             <div className="mb-5">
-              <span className="font-bold text-2xl">Featured Listings</span>
+              <span className="font-bold text-2xl ">Featured Listings</span>
               <p className="text-slate-600 mt-1">
                 Discover Most suitable houses and apartments for rent.
               </p>
@@ -122,9 +122,10 @@ const Home = () => {
               )}
             </div>
           </div>
+          )}
         </div>
         <div className="flex justify-center my-24">
-          <div className="text-center max-w-xl">
+          <div className="text-center max-w-xl animate-fade-in-up supports-no-view-driven-animations:animate-none [animation-range:0px_500px] [animation-timeline:view()]">
             <span className="font-bold text-2xl">Why Choose Us?</span>
             <p className="text-slate-600 mt-1">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque ea
@@ -136,10 +137,10 @@ const Home = () => {
         </div>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row gap-4 text-center my-5">
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center animate-fade-in-left supports-no-view-driven-animations:animate-none [animation-range:0px_400px] [animation-timeline:view()]">
               <img
                 src={illustration1}
-                className="w-[300px] h-[150px] lg:w-[500px] lg:h-[300px]  object-cover mb-5"
+                className="w-[300px] h-[150px] lg:w-[500px] lg:h-[300px]  object-cover mb-5 "
               />
               <span className="font-semibold">Easy to choose a place</span>
               <p className="text-slate-600 mt-1">
@@ -156,7 +157,7 @@ const Home = () => {
                 Manage Seamless communication with customers
               </p>
             </div>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center animate-fade-in-right supports-no-view-driven-animations:animate-none [animation-range:0px_400px] [animation-timeline:view()]">
               <img
                 src={illustration3}
                 className="w-[300px] h-[150px] lg:w-[500px] lg:h-[300px] object-cover mb-5"
@@ -168,7 +169,10 @@ const Home = () => {
             </div>
           </div>
         </div>
+        <div className="animate-make-it-bigger supports-no-view-driven-animations:animate-none [animation-range:0px_500px] [animation-timeline:view()] transition">
         <FAQSection />
+        </div>
+        
       </div>
 
     </div>
