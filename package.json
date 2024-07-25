@@ -22,7 +22,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
+    "start": "node server/index.js",
     "dev": "nodemon server/index.js",
     "build": "npm install && npm install --prefix client && npm run build --prefix client"
   },
