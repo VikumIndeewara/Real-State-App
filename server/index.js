@@ -27,11 +27,7 @@ app.use(cookieParser());
 app.use('/user',userRouter);
 app.use('/auth',authRouter);
 app.use('/listing',listingRouter);
-app.use(express.static(path.join(__dirname, '/client/dist')));
-
-app.get('*',(req,res)=>{
-    res.sendFile(path.join(__dirname,'client','dist','index.html'));
-})
+app.use(express.static(path.join(__dirname, 'client', 'dist')));
 
 app.use((err,req,res,next)=>{
     const statusCode = err.statusCode || 500;
@@ -42,6 +38,11 @@ app.use((err,req,res,next)=>{
         message,
     });
 });
+
+app.get('*',(req,res)=>{
+    res.sendFile(path.join(__dirname,'client','dist','index.html'));
+})
+
 
 mongoose
     .connect(MONGO)
