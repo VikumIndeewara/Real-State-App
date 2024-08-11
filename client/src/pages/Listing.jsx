@@ -24,7 +24,7 @@ const Listing = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5555/listing/${id}`)
+      .get(`/server_api/listing/${id}`)
       .then((res) => {
         setListing(res.data);
         console.log(res.data);
@@ -36,7 +36,7 @@ const Listing = () => {
 
   useEffect(()=>{
     axios
-    .get(`http://localhost:5555/user/getUser/${listing.userRef}`)
+    .get(`/server_api/user/getUser/${listing.userRef}`)
     .then((res) => {
       setOwnerDetails(res.data);
     })
@@ -47,7 +47,7 @@ const Listing = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5555/listing/search-listings`)
+      .get(`/server_api/listing/search-listings`)
       .then((res) => {
         setSimilarListings(res.data.listings);
       })

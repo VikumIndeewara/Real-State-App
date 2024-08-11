@@ -49,7 +49,7 @@ const SignIn = () => {
     console.log("Submitting");
     dispatch(signInStart());
     axios
-      .post("http://localhost:5555/auth/sign-in", formData)
+      .post('/server_api/auth/sign-in', formData)
       .then((res) => {
         console.log("success");
         dispatch(signInSuccess(res));

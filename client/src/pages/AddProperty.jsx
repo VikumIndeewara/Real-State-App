@@ -107,7 +107,7 @@ const AddProperty = () => {
 
   const handleSubmit = () => {
     setLoading(true);
-    const link = `http://localhost:5555/listing/create-listing`;
+    const link = `/server_api/listing/create-listing`;
     axios
       .post(link, {
         ...formData,

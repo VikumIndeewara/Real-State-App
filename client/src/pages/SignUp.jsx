@@ -47,7 +47,7 @@ const SignUp = () => {
   const handleSubmit=()=>{
     setLoading(true);
     axios
-    .post('http://localhost:5555/auth/sign-up',formData)
+    .post('/server_api/auth/sign-up',formData)
     .then(()=>{
       setLoading(false);
       navigate('/sign-in');

@@ -19,7 +19,7 @@ const Home = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5555/listing/search-listings`)
+      .get(`/server_api/listing/search-listings`)
       .then((res) => {
         setListings(res.data.listings);
       })
