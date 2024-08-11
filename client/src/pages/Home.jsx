@@ -29,7 +29,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (swiperRef.current && listings.length > 0) {
+    if (swiperRef.current) {
       const swiperEl = swiperRef.current;
 
       const swiperParams = {
