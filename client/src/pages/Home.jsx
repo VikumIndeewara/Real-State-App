@@ -111,7 +111,7 @@ const Home = () => {
               </p>
             </div>
             <div>
-              {listings.length > 0 && (
+              {listings && listings.length > 0 && (
                 <swiper-container ref={swiperRef} init="false">
                   {listings.map((listing, index) => (
                     <swiper-slide key={index}>
