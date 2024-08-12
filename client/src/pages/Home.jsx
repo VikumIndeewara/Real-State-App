@@ -21,7 +21,7 @@ const Home = () => {
     axios
       .get(`/server_api/listing/search-listings`)
       .then((res) => {
-        setListings(res.data.listings || []);
+        setListings(res.data.listings);
       })
       .catch((err) => {
         console.log(err);
@@ -111,7 +111,7 @@ const Home = () => {
               </p>
             </div>
             <div>
-              {listings && listings.length > 0 && (
+              {listings.length > 0 && (
                 <swiper-container ref={swiperRef} init="false">
                   {listings.map((listing, index) => (
                     <swiper-slide key={index}>
