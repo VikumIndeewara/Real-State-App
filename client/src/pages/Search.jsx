@@ -33,7 +33,7 @@ const Search = () => {
         console.log("Q", searchQuery);
         console.log("SI", startIndex);
         axios
-          .get(`/server_api/listing/search-listings?${searchQuery}`)
+          .get(`https://real-state-app-server.onrender.com/listing/search-listings?${searchQuery}`)
           .then((res) => {
             setListings(res.data.listings);
             setPages(res.data.totalPages);

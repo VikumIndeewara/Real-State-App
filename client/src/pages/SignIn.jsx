@@ -49,7 +49,7 @@ const SignIn = () => {
     console.log("Submitting");
     dispatch(signInStart());
     axios
-      .post('/server_api/auth/sign-in', formData)
+      .post('https://real-state-app-server.onrender.com/auth/sign-in', formData)
       .then((res) => {
         console.log("success");
         dispatch(signInSuccess(res));

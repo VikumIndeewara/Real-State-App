@@ -28,7 +28,7 @@ const ListingEditPopup = ({listing}) => {
 
   const handleSubmit=()=>{
     const id = listing._id;
-    const link= `http://localhost:5555/listing/update-listing/${id}`
+    const link= `https://real-state-app-server.onrender.com/update-listing/${id}`
     axios
     .put(link,updateListing)
     .then((res)=>{

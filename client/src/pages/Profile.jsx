@@ -147,7 +147,7 @@ const Profile = () => {
   }, [messageVisible, updateUserSuccessMessage]);
 
   useEffect(() => {
-    const link = `/server_api/user/userListings/${currentUser.data._id}`;
+    const link = `https://real-state-app-server.onrender.com/user/userListings/${currentUser.data._id}`;
     axios
       .get(link)
       .then((res) => {
@@ -161,7 +161,7 @@ const Profile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(updateUserStart());
-    const link = `/server_api/user/update/${currentUser.data._id}`;
+    const link = `https://real-state-app-server.onrender.com/user/update/${currentUser.data._id}`;
     axios
       .put(link, formData, {
         headers: {
@@ -184,7 +184,7 @@ const Profile = () => {
   const handleDeleteUser = (e) => {
     e.preventDefault();
     dispatch(deleteUserStart());
-    const link = `/server_api/user/deleteUser/${currentUser.data._id}`;
+    const link = `https://real-state-app-server.onrender.com/user/deleteUser/${currentUser.data._id}`;
     axios
       .delete(link)
       .then((res) => {
@@ -202,7 +202,7 @@ const Profile = () => {
     e.preventDefault();
 
     dispatch(signOutUserStart());
-    const link = `/server_api/auth/sign-out`;
+    const link = `https://real-state-app-server.onrender.com/auth/sign-out`;
     axios
       .get(link)
       .then((res) => {
@@ -218,7 +218,7 @@ const Profile = () => {
 
   const handleDeleteListing = (index) => {
     const listingId = listings[index]._id;
-    const link = `/server_api/listing/delete-listing/${listingId}`;
+    const link = `https://real-state-app-server.onrender.com/listing/delete-listing/${listingId}`;
     axios
       .delete(link)
       .then((res) => {

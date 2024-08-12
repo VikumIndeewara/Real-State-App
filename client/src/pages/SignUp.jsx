@@ -47,7 +47,7 @@ const SignUp = () => {
   const handleSubmit=()=>{
     setLoading(true);
     axios
-    .post('/server_api/auth/sign-up',formData)
+    .post('https://real-state-app-server.onrender.com/auth/sign-up',formData)
     .then(()=>{
       setLoading(false);
       navigate('/sign-in');

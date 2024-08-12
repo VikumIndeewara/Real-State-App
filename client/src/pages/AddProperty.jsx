@@ -107,7 +107,7 @@ const AddProperty = () => {
 
   const handleSubmit = () => {
     setLoading(true);
-    const link = `/server_api/listing/create-listing`;
+    const link = `https://real-state-app-server.onrender.com/listing/create-listing`;
     axios
       .post(link, {
         ...formData,
