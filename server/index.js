@@ -11,9 +11,11 @@ import cors from 'cors';
 import path from 'path';
 
 const corsOptions = {
-    origin: 'http://localhost:5173', 
-    credentials: true, 
-  };
+    origin: ['https://real-state-app-client.onrender.com', 'http://localhost:5173'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+};
 
 // const __dirname = path.resolve();
 
