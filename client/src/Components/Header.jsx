@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-
+import logo from '../assets/images/logo.svg';
 import Dropdown from './Dropdown';
 
 
@@ -9,7 +9,7 @@ const Header = () => {
   return (
     <header className="flex flex-row items-center justify-between px-10 py-3 border-b-2 bg-gray-100">
         <Link to="/">
-            <img src="../logo.svg" alt="" className='h-[32px]'/>
+            <img src={logo} alt="" className='h-[32px]'/>
         </Link>
         <nav>
             <ul className='flex items-center gap-10 font-semibold text-slate-600'>

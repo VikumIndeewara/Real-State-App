@@ -3,6 +3,7 @@ import { FaFacebook } from "react-icons/fa";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { FaLinkedin } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import logo from '../assets/images/logo.svg';
 
 const Footer = () => {
   return (
@@ -11,7 +12,7 @@ const Footer = () => {
       <hr className="border-slate-200 my-5"/>
         <div className="flex justify-around">
           <Link  to="/">
-          <img src="../logo.svg" alt="" className='h-[32px]'/>
+          <img src={logo} alt="" className='h-[32px]'/>
           </Link>
           <div className="flex flex-col gap-4">
             <span className="font-semibold">Legal</span>
