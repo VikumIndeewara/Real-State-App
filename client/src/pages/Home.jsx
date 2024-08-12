@@ -19,7 +19,7 @@ const Home = () => {
 
   useEffect(() => {
     axios
-      .get(`/server_api/listing/search-listings`)
+      .get(`https://real-state-app-server.onrender.com/listing/search-listings`)
       .then((res) => {
         setListings(res.data.listings);
       })
