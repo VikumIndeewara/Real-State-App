@@ -21,7 +21,7 @@ const Home = () => {
     axios
       .get(`/server_api/listing/search-listings`)
       .then((res) => {
-        setListings(res.data.listings);
+        setListings(res.data.listings || []);
       })
       .catch((err) => {
         console.log(err);
