@@ -4,7 +4,7 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 dotenv.config();
 import { loadEnvFile } from 'process';
-loadEnvFile('./server/.env');
+loadEnvFile('.env');
 import mongoose from 'mongoose';
 import userRouter from '../server/routes/userRoute.js'
 import authRouter from '../server/routes/authRoute.js'
