@@ -20,7 +20,7 @@ const corsOptions = {
 const app = express();
 app.use(express.json());
 app.use(cors(corsOptions));
-const MONGO=process.env.MONGO;
+const MONGO="mongodb+srv://vikumibandara:Wnvb0uDpZUolG7lr@cluster0.w4dvr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 app.use(cookieParser());
 
