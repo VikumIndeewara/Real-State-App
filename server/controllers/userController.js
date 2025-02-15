@@ -58,7 +58,7 @@ export const update = async (req, res) => {
       return res.status(400).json({ message: "User not found" });
     }
     const { password, ...rest } = updateResult._doc;
-    const token = jwt.sign({ id: updateResult._id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: updateResult._id }, "sdvvsvv323r0d");
     res
       .cookie("access_token", token, { httpOnly: true , maxAge: 24 * 60 * 60 * 1000 }) //httpOnly prevent access of other third party applications, we can set cookie expire time also
       .status(200)
