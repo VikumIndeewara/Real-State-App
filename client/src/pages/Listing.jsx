@@ -24,7 +24,7 @@ const Listing = () => {
 
   useEffect(() => {
     axios
-      .get(`https://real-state-app-server.onrender.com/listing/${id}`)
+      .get(`http://localhost:5555/listing/${id}`)
       .then((res) => {
         setListing(res.data);
         console.log(res.data);
@@ -36,7 +36,7 @@ const Listing = () => {
 
   useEffect(()=>{
     axios
-    .get(`https://real-state-app-server.onrender.com/user/getUser/${listing.userRef}`)
+    .get(`http://localhost:5555/user/getUser/${listing.userRef}`)
     .then((res) => {
       setOwnerDetails(res.data);
     })
@@ -47,7 +47,7 @@ const Listing = () => {
 
   useEffect(() => {
     axios
-      .get(`https://real-state-app-server.onrender.com/listing/search-listings`)
+      .get(`http://localhost:5555/listing/search-listings`)
       .then((res) => {
         setSimilarListings(res.data.listings);
       })

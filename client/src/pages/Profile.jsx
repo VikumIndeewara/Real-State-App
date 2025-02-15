@@ -98,6 +98,7 @@ const Profile = () => {
   };
 
   const handleUploadImage = useCallback((image) => {
+    console.log("image uploading");
     const storage = getStorage(app);
     const fileName = new Date().getTime() + image.name;
     const storageRef = ref(storage, fileName); //created unique name and referenced it to the store of firebase
@@ -120,7 +121,9 @@ const Profile = () => {
           setFormData((formData) => ({ ...formData, avatar: downloadURL }))
         );
       }
+      
     );
+    console.log("image uploaded",formData)
   }, []);
 
   useEffect(() => {
@@ -147,7 +150,7 @@ const Profile = () => {
   }, [messageVisible, updateUserSuccessMessage]);
 
   useEffect(() => {
-    const link = `https://real-state-app-server.onrender.com/user/userListings/${currentUser.data._id}`;
+    const link = `http://localhost:5555/user/userListings/${currentUser.data._id}`;
     axios
       .get(link)
       .then((res) => {
@@ -160,8 +163,9 @@ const Profile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("submit",formData);
     dispatch(updateUserStart());
-    const link = `https://real-state-app-server.onrender.com/user/update/${currentUser.data._id}`;
+    const link = `http://localhost:5555/user/update/${currentUser.data._id}`;
     axios
       .put(link, formData, {
         headers: {
@@ -176,7 +180,7 @@ const Profile = () => {
         navigate("/profile");
       })
       .catch((err) => {
-        console.log(err);
+        console.log("user update failed!",err);
         dispatch(updateUserFailure(err.message));
       });
   };
@@ -184,7 +188,7 @@ const Profile = () => {
   const handleDeleteUser = (e) => {
     e.preventDefault();
     dispatch(deleteUserStart());
-    const link = `https://real-state-app-server.onrender.com/user/deleteUser/${currentUser.data._id}`;
+    const link = `http://localhost:5555/user/deleteUser/${currentUser.data._id}`;
     axios
       .delete(link)
       .then((res) => {
@@ -202,7 +206,7 @@ const Profile = () => {
     e.preventDefault();
 
     dispatch(signOutUserStart());
-    const link = `https://real-state-app-server.onrender.com/auth/sign-out`;
+    const link = `http://localhost:5555/auth/sign-out`;
     axios
       .get(link)
       .then((res) => {
@@ -218,7 +222,7 @@ const Profile = () => {
 
   const handleDeleteListing = (index) => {
     const listingId = listings[index]._id;
-    const link = `https://real-state-app-server.onrender.com/listing/delete-listing/${listingId}`;
+    const link = `http://localhost:5555/listing/delete-listing/${listingId}`;
     axios
       .delete(link)
       .then((res) => {
@@ -271,7 +275,7 @@ const Profile = () => {
                 ) : null}
               </p>
             )}
-
+            {/* this button refers to image input */}
             <button
               onClick={() => fileRef.current.click()}
               className="rounded-md bg-slate-600 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-500"

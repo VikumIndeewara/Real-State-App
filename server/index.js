@@ -1,14 +1,16 @@
 import express from 'express';
 import { PORT} from './config.js';
-import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 dotenv.config();
+import { loadEnvFile } from 'process';
+loadEnvFile('./server/.env');
+import mongoose from 'mongoose';
 import userRouter from '../server/routes/userRoute.js'
 import authRouter from '../server/routes/authRoute.js'
 import listingRouter from '../server/routes/listingRoute.js'
 import cors from 'cors';
-import path from 'path';
+// import path from 'path';
 
 const corsOptions = {
     origin: ['https://real-state-app-client.onrender.com', 'http://localhost:5173'],
@@ -18,11 +20,10 @@ const corsOptions = {
 };
 
 // const __dirname = path.resolve();
-
 const app = express();
 app.use(express.json());
 app.use(cors(corsOptions));
-const MONGO = process.env.MONGO;
+const MONGO=process.env.MONGO;
 
 app.use(cookieParser());
 

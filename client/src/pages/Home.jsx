@@ -5,7 +5,6 @@ import ListingCard from "../Components/ListingCard";
 import axios from "axios";
 import { register } from "swiper/element/bundle";
 register();
-
 import illustration1 from "../assets/images/illustration1.jpg";
 import illustration2 from "../assets/images/illustration2.jpg";
 import illustration3 from "../assets/images/illustration3.svg";
@@ -13,13 +12,16 @@ import FAQSection from "../Components/FAQSection";
 
 
 const Home = () => {
+  console.log(import.meta.env.VITE_APP_LINK);
   const backgroundImageUrl = `url(${backgroundImage})`;
   const [listings, setListings] = useState([]);
   const swiperRef = useRef(null);
 
   useEffect(() => {
     axios
-      .get(`https://real-state-app-server.onrender.com/listing/search-listings`)
+      .get(`http://localhost:5555/listing/search-listings`)
+      //http://localhost:5555
+      // https://real-state-app-server.onrender.com/listing/search-listings
       .then((res) => {
         setListings(res.data.listings);
       })

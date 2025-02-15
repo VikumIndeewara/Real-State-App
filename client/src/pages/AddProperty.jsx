@@ -30,10 +30,17 @@ const AddProperty = () => {
   };
 
   const handleUploadImages = async () => {
+
     if (images.length == 5) {
       const imagesLinks = [];
       for (let i = 0; i < images.length; i++) {
-        imagesLinks.push(uploadImages(images[i]));
+        if (images[i].size > 2*1024*1024) {
+          setError("Images are too large.please select under 2mb.");
+        }else{
+          imagesLinks.push(uploadImages(images[i]));
+          console.log(uploadImages(images[i]))
+        }
+
       }
 
       try {
@@ -107,7 +114,7 @@ const AddProperty = () => {
 
   const handleSubmit = () => {
     setLoading(true);
-    const link = `https://real-state-app-server.onrender.com/listing/create-listing`;
+    const link = `http://localhost:5555/listing/create-listing`;
     axios
       .post(link, {
         ...formData,
@@ -348,7 +355,7 @@ const AddProperty = () => {
                         )}
                         {images.length < 5 ? (
                           <p className="text-xs leading-5 text-gray-600">
-                            Please select 5 images
+                            Please select 5 images under 2mb
                           </p>
                         ) : (
                           ""

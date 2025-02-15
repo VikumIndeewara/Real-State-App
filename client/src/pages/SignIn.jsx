@@ -46,16 +46,17 @@ const SignIn = () => {
   };
 
   const handleSubmit = () => {
-    console.log("Submitting");
+    console.log(formData)
     dispatch(signInStart());
     axios
-      .post('https://real-state-app-server.onrender.com/auth/sign-in', formData)
+      .post('http://localhost:5555/auth/sign-in', formData)
       .then((res) => {
         console.log("success");
         dispatch(signInSuccess(res));
         navigate("/");
       })
       .catch((err) => {
+        console.log("errr")
         setErrors({ userInvalid: "Invalid User credentials!" });
         dispatch(signInFailure(err.message));
       });
